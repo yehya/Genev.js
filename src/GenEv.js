@@ -1,5 +1,11 @@
 var GF = function (GENE_STRUCTURE) {
 
+	// Check for invalid parameter GENE_STRUCTURE
+	if ((typeof GENE_STRUCTURE === "undefined")) {
+		console.error("Invalid parameter passed to GF. You need to pass a gene structure.");
+		return null;
+	};
+
 	// Class Private methods/properties
 	var private = {};
 
@@ -7,7 +13,7 @@ var GF = function (GENE_STRUCTURE) {
 	private.GENE_STRUCTURE = GENE_STRUCTURE; // Gene structure
 
 	// Maximum population size
-	private.MAX_POPULATION_SIZE = 45; // default to 50
+	private.MAX_POPULATION_SIZE = 45; // default to 45
 
 	// Maximum number of generations
 	private.MAX_GENERATIONS = 100; // default to 100
