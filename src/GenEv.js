@@ -48,9 +48,10 @@ var GF = function (GENE_STRUCTURE, options) {
 
     // Crossover Xgene and Ygene and return crossover
     gfprivate.crossover = function (Xgenes, Ygenes) {
-        var crossedGenes = {};
-        for (var property in Xgene) {
-            if (Xgene.hasOwnProperty(property)) {
+        var crossedGenes = {},
+            property;
+        for (property in Xgenes) {
+            if (Xgenes.hasOwnProperty(property)) {
                 // 50/50 chance of picking a gene from either
                 crossedGenes = ((Math.random() > 0.5) ? Xgenes[property] : Ygenes[property]);
             }
@@ -59,8 +60,9 @@ var GF = function (GENE_STRUCTURE, options) {
 
     // Mutate individual chromosomes
     gfprivate.getMutated = function (genes) {
-        var mutatedGene = {};
-        for (var property in genes) {
+        var mutatedGene = {},
+            property;
+        for (property in genes) {
             if (genes.hasOwnProperty(property)) {
                 var mutatedGene[property] = ((Math.random() < gfprivate.MUTATION_PROB) ? Math.random() : genes[property]);
             }
@@ -70,8 +72,9 @@ var GF = function (GENE_STRUCTURE, options) {
 
     // Generates a new random chromosome using the structure provided
     gfprivate.generateChromosome = function () {
-        var newChromosome = gfprivate.GENE_STRUCTURE;
-        for (var property in newChromosome) {
+        var newChromosome = gfprivate.GENE_STRUCTURE,
+            property;
+        for (property in newChromosome) {
             if (newChromosome.hasOwnProperty(property)) {
                 newChromosome[property] = Math.random();
             }
