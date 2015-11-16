@@ -21,8 +21,7 @@ var GF = function (GENE_STRUCTURE, options) {
     gfprivate.MAX_GENERATIONS = 100; // default to 100
 
     // Mutation probability
-    gfprivate.MUTATION_PROB = 0.05;
-    c // default to 5%
+    gfprivate.MUTATION_PROB = 0.05; // default to 5%
 
     // Selection number
     gfprivate.NUM_TO_SELECT = 10; // default to 10 tributes (they volunteer as tribute)
