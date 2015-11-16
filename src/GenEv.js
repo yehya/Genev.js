@@ -90,7 +90,7 @@ var GF = function (GENE_STRUCTURE, options) {
         return score;
     };
 
-    // Class gfpublic methods/properties
+    // Class public methods/properties
     var gfpublic = {};
 
     gfpublic.initPopulation = function (chromosomeStruct) {
