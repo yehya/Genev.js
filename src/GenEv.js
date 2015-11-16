@@ -90,10 +90,10 @@ var GF = function (GENE_STRUCTURE, options) {
         return score;
     };
 
-    // Class Public methods/properties
-    var public = {};
+    // Class gfpublic methods/properties
+    var gfpublic = {};
 
-    public.initPopulation = function (chromosomeStruct) {
+    gfpublic.initPopulation = function (chromosomeStruct) {
 
         /* CREATE RANDOM POPULATION */
 
@@ -105,7 +105,7 @@ var GF = function (GENE_STRUCTURE, options) {
         };
     };
 
-    public.evolve = function (evolveOptions) {
+    gfpublic.evolve = function (evolveOptions) {
 
         // Update options again.
         $.extend(gfprivate, evolveOptions);
@@ -167,5 +167,5 @@ var GF = function (GENE_STRUCTURE, options) {
     // Options merging (requires Jquery)
     $.extend(gfprivate, options);
 
-    return public;
+    return gfpublic;
 };
