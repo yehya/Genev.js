@@ -1,5 +1,7 @@
 var GF = function (GENE_STRUCTURE, options) {
 
+    "use strict";
+
     // Check for invalid parameter GENE_STRUCTURE
     if ((typeof GENE_STRUCTURE === "undefined")) {
         console.error("Invalid parameter passed to GF. You need to pass a gene structure.");
@@ -102,7 +104,7 @@ var GF = function (GENE_STRUCTURE, options) {
     };
 
     public.evolve = function (evolveOptions) {
-        
+
         // Update options again.
         $.extend(private, evolveOptions);
 
@@ -162,6 +164,6 @@ var GF = function (GENE_STRUCTURE, options) {
 
     // Options merging (requires Jquery)
     $.extend(private, options);
-    
+
     return public;
 };
