@@ -8,7 +8,7 @@ var chromosomeStructre = {
 
 var myFitnessFunction = function (chromosome) {
 	var score;
-	
+
 	return score;
 };
 

@@ -27,6 +27,9 @@ var GF = function (GENE_STRUCTURE) {
 	// Generation Population Array
 	private.population = [];
 
+	// Mutation function
+	private.mutationFunction = null;
+
 	// Tests a single chromosome's fitness and returns the score
 	private.getFitnessScore = function (genes) {
 		var score = private.fitnessFunction(genes);
