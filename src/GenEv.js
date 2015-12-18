@@ -64,7 +64,7 @@ var GF = function (GENE_STRUCTURE, options) {
             property;
         for (property in genes) {
             if (genes.hasOwnProperty(property)) {
-                var mutatedGene[property] = ((Math.random() < gfprivate.MUTATION_PROB) ? Math.random() : genes[property]);
+                mutatedGene[property] = ((Math.random() < gfprivate.MUTATION_PROB) ? Math.random() : genes[property]);
             }
         }
         return mutatedGene;
@@ -96,7 +96,7 @@ var GF = function (GENE_STRUCTURE, options) {
     gfpublic.initPopulation = function (chromosomeStruct) {
 
         /* CREATE RANDOM POPULATION */
-
+        var i;
         for (i = 0; i <= gfprivate.MAX_POPULATION_SIZE; i += 1) {
             // Create new random chromosome
             var newChromosome = gfprivate.generateChromosome();
