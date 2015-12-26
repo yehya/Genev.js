@@ -13,6 +13,17 @@ var GF = function (GENE_STRUCTURE, options) {
 
     // Gene structure
     gfprivate.GENE_STRUCTURE = GENE_STRUCTURE; // Gene structure
+    
+    // Default options
+    gfprivate.DEFAULT_OPTIONS = {
+        MAX_POPULATION_SIZE: 45,
+        MAX_GENERATIONS: 100,
+        MUTATION_PROB: 0.05,
+        NUM_TO_SELECT: 10  
+    };
+    
+    // Setting default options 
+    $.extend(gfprivate, gfprivate.DEFAULT_OPTIONS);
 
     // Maximum population size
     gfprivate.MAX_POPULATION_SIZE = 45; // default to 45
@@ -163,6 +174,11 @@ var GF = function (GENE_STRUCTURE, options) {
             /* REPEAT UNTIL LAST GENERATION */
         }
     };
+    
+    // Resets all options to the defaults
+    gfpublic.resetOptions = function () {
+        $.extend(gfprivate, gfprivate.DEFAULT_OPTIONS);
+    }
 
     // Options merging (requires Jquery)
     $.extend(gfprivate, options);
