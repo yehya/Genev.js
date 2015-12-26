@@ -1,3 +1,5 @@
+/*global $, jQuery, alert, console, i, j, ii*/
+
 var GF = function (GENE_STRUCTURE, options) {
 
     "use strict";
@@ -13,15 +15,15 @@ var GF = function (GENE_STRUCTURE, options) {
 
     // Gene structure
     gfprivate.GENE_STRUCTURE = GENE_STRUCTURE;
-    
+
     // Default options
     gfprivate.DEFAULT_OPTIONS = {
         MAX_POPULATION_SIZE: 45,
         MAX_GENERATIONS: 100,
         MUTATION_PROB: 0.05,
-        NUM_TO_SELECT: 10  
+        NUM_TO_SELECT: 10
     };
-    
+
     // Setting default options 
     $.extend(gfprivate, gfprivate.DEFAULT_OPTIONS);
 
@@ -107,13 +109,12 @@ var GF = function (GENE_STRUCTURE, options) {
     gfpublic.initPopulation = function (chromosomeStruct) {
 
         /* CREATE RANDOM POPULATION */
-        var i;
         for (i = 0; i <= gfprivate.MAX_POPULATION_SIZE; i += 1) {
             // Create new random chromosome
             var newChromosome = gfprivate.generateChromosome();
             // Add it to the population
             gfprivate.population.push(newChromosome);
-        };
+        }
     };
 
     gfpublic.evolve = function (evolveOptions, fitfunc) {
@@ -126,7 +127,7 @@ var GF = function (GENE_STRUCTURE, options) {
 
         // Set the fitness function
         if (typeof fitfunc === "function") {
-            gfprivate.fitnessFunction = fitfunc; 
+            gfprivate.fitnessFunction = fitfunc;
         }
 
         // Abort
@@ -134,19 +135,19 @@ var GF = function (GENE_STRUCTURE, options) {
         if (gfprivate.population.empty()) {
             console.error("No population initialized. Hint: Use .init before .evolve");
             return;
-        };
+        }
 
         while (generationCount--) {
 
             /* EVALUATION PHASE */
 
             // Pass all chromosomes to fitness function and get all scores
-            for (var i = 0; i <= gfprivate.population.length; i += 1) {
+            for (i = 0; i <= gfprivate.population.length; i += 1) {
                 // Get the fitness core
                 var score = gfprivate.getFitnessScore(gfprivate.population[i].genes);
                 // Set the score property of the chromosome
                 gfprivate.population[i].score = score;
-            };
+            }
 
             /* SELECTION PHASE */
 
@@ -154,17 +155,17 @@ var GF = function (GENE_STRUCTURE, options) {
             gfprivate.sortPopulation();
             // Select best chromosomes
             var fittestChromosomes = [];
-            for (var k = 0; k < gfprivate.NUM_TO_SELECT; k += 1) {
-                fittestChromosomes.push(gfprivate.population[k]);
+            for (i = 0; i < gfprivate.NUM_TO_SELECT; i += 1) {
+                fittestChromosomes.push(gfprivate.population[i]);
             }
 
             /* CROSSOVER & MUTATION PHASE */
 
             var crossoverPopulation = [];
-            for (var j = 0; j < gfprivate.population.length; j += 1) {
-                for (var jj = 1; jj < gfprivate.population.length - j; jj += 1) {
+            for (i = 0; i < gfprivate.population.length; i += 1) {
+                for (ii = 1; ii < gfprivate.population.length - i; ii += 1) {
                     // 50/50 chance for selecting genes
-                    var crossoverChromosome = gfprivate.crossover(gfprivate.population[j], gfprivate.population[jj]);
+                    var crossoverChromosome = gfprivate.crossover(gfprivate.population[i], gfprivate.population[ii]);
                     crossoverPopulation.push(crossoverChromosome);
                 }
             }
@@ -176,11 +177,11 @@ var GF = function (GENE_STRUCTURE, options) {
             /* REPEAT UNTIL LAST GENERATION */
         }
     };
-    
+
     // Resets all options to the defaults
     gfpublic.resetOptions = function () {
         $.extend(gfprivate, gfprivate.DEFAULT_OPTIONS);
-    }
+    };
 
     // Options merging (requires Jquery)
     $.extend(gfprivate, options);
