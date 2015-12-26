@@ -107,7 +107,6 @@ var GF = function (GENE_STRUCTURE, options) {
     var gfpublic = {};
 
     gfpublic.initPopulation = function (chromosomeStruct) {
-
         /* CREATE RANDOM POPULATION */
         for (i = 0; i <= gfprivate.MAX_POPULATION_SIZE; i += 1) {
             // Create new random chromosome
@@ -118,7 +117,6 @@ var GF = function (GENE_STRUCTURE, options) {
     };
 
     gfpublic.evolve = function (evolveOptions, fitfunc) {
-
         // Update options again.
         $.extend(gfprivate, evolveOptions);
 
@@ -185,6 +183,7 @@ var GF = function (GENE_STRUCTURE, options) {
 
     // Options merging (requires Jquery)
     $.extend(gfprivate, options);
-
+    
+    // Return class public methods (a.k.a. make them available for use)
     return gfpublic;
 };
