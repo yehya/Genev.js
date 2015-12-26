@@ -116,7 +116,7 @@ var GF = function (GENE_STRUCTURE, options) {
         };
     };
 
-    gfpublic.evolve = function (evolveOptions) {
+    gfpublic.evolve = function (evolveOptions, fitfunc) {
 
         // Update options again.
         $.extend(gfprivate, evolveOptions);
@@ -125,7 +125,9 @@ var GF = function (GENE_STRUCTURE, options) {
         var generationCount = gfprivate.MAX_GENERATIONS;
 
         // Set the fitness function
-        gfprivate.fitnessFunction = fitnessFunction;
+        if (typeof fitfunc === "function") {
+            gfprivate.fitnessFunction = fitfunc; 
+        }
 
         // Abort
         // If the population is not initialized
@@ -139,7 +141,7 @@ var GF = function (GENE_STRUCTURE, options) {
             /* EVALUATION PHASE */
 
             // Pass all chromosomes to fitness function and get all scores
-            for (i = 0; i <= gfprivate.population.length; i += 1) {
+            for (var i = 0; i <= gfprivate.population.length; i += 1) {
                 // Get the fitness core
                 var score = gfprivate.getFitnessScore(gfprivate.population[i].genes);
                 // Set the score property of the chromosome
@@ -152,15 +154,15 @@ var GF = function (GENE_STRUCTURE, options) {
             gfprivate.sortPopulation();
             // Select best chromosomes
             var fittestChromosomes = [];
-            for (k = 0; k < gfprivate.NUM_TO_SELECT; k += 1) {
+            for (var k = 0; k < gfprivate.NUM_TO_SELECT; k += 1) {
                 fittestChromosomes.push(gfprivate.population[k]);
             }
 
             /* CROSSOVER & MUTATION PHASE */
 
             var crossoverPopulation = [];
-            for (j = 0; j < fitnessFunction.length; j += 1) {
-                for (jj = 1; jj < fitnessFunction.length - j; jj += 1) {
+            for (var j = 0; j < gfprivate.population.length; j += 1) {
+                for (var jj = 1; jj < gfprivate.population.length - j; jj += 1) {
                     // 50/50 chance for selecting genes
                     var crossoverChromosome = gfprivate.crossover(gfprivate.population[j], gfprivate.population[jj]);
                     crossoverPopulation.push(crossoverChromosome);
