@@ -12,7 +12,7 @@ var GF = function (GENE_STRUCTURE, options) {
     var gfprivate = {};
 
     // Gene structure
-    gfprivate.GENE_STRUCTURE = GENE_STRUCTURE; // Gene structure
+    gfprivate.GENE_STRUCTURE = GENE_STRUCTURE;
     
     // Default options
     gfprivate.DEFAULT_OPTIONS = {
