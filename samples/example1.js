@@ -1,5 +1,11 @@
+/* global, GF */
+
+/** 
+ * Conceptual sample of how to use Genev
+ */
+
 // Sample GENE_STRUCTURE
-var chromosomeStructre = {
+var chromosome = { // all of these will hold double values from 0 to 1
 	weight1: 0,
 	weight2: 0,
 	weight3: 0,
@@ -8,13 +14,13 @@ var chromosomeStructre = {
 };
 
 // Sample fitness function
-var myFitnessFunction = function (chromosome) {
-	var score;
+var fitfunc = function (chromo) { // must take a chromosome
+	var score = Math.random();
 	return score;
 };
 
 // Initializing the new Genetic Framework
-var myGF = new GF(chromosomeStructre);
+var myGF = GF(chromosome);
 
 myGF.initPopulation();
-myGF.evolve(myFitnessFunction);
+myGF.evolve(fitfunc);
