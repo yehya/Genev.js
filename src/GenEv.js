@@ -1,7 +1,7 @@
 /*global $, jQuery, alert, console, i, j, ii*/
 
 var GF = function (GENE_STRUCTURE, options) {
-
+    
     "use strict";
 
     // Check for invalid parameter GENE_STRUCTURE
@@ -56,7 +56,9 @@ var GF = function (GENE_STRUCTURE, options) {
 
     // Sort (descending) chromosomes based on score
     gfprivate.sortPopulation = function () {
-
+        gfprivate.population.sort(function (a,b) {
+            return b.score - a.score; // descending score order
+        });
     };
 
     // Crossover Xgene and Ygene and return crossover
@@ -97,10 +99,12 @@ var GF = function (GENE_STRUCTURE, options) {
 
     // Default fitness function (should be replaced with custom function by framework user)
     gfprivate.fitnessFunction = function (genes) {
-        var score = 0;
-        // Do stuff using the genes
-        // Return score
-        return score;
+        var property;
+        for (property in genes) {
+            if (genes.hasOwnProperty(property)) {
+                return genes[property];
+            }
+        }
     };
 
     // Class public methods/properties
@@ -108,9 +112,9 @@ var GF = function (GENE_STRUCTURE, options) {
 
     gfpublic.initPopulation = function (chromosomeStruct) {
         /* CREATE RANDOM POPULATION */
-        for (i = 0; i <= gfprivate.MAX_POPULATION_SIZE; i += 1) {
+        for (i = 0; i < gfprivate.MAX_POPULATION_SIZE; i += 1) {
             // Create new random chromosome
-            var newChromosome = gfprivate.generateChromosome();
+            var newChromosome = $.extend({},gfprivate.generateChromosome());
             // Add it to the population
             gfprivate.population.push(newChromosome);
         }
@@ -130,7 +134,7 @@ var GF = function (GENE_STRUCTURE, options) {
 
         // Abort
         // If the population is not initialized
-        if (gfprivate.population.empty()) {
+        if (!gfprivate.population.length) {
             console.error("No population initialized. Hint: Use .init before .evolve");
             return;
         }
@@ -140,11 +144,11 @@ var GF = function (GENE_STRUCTURE, options) {
             /* EVALUATION PHASE */
 
             // Pass all chromosomes to fitness function and get all scores
-            for (i = 0; i <= gfprivate.population.length; i += 1) {
+            for (chromo in gfprivate.population) {
                 // Get the fitness core
-                var score = gfprivate.getFitnessScore(gfprivate.population[i].genes);
+                var score = gfprivate.getFitnessScore(chromo);
                 // Set the score property of the chromosome
-                gfprivate.population[i].score = score;
+                chromo.score = score;
             }
 
             /* SELECTION PHASE */
@@ -180,6 +184,10 @@ var GF = function (GENE_STRUCTURE, options) {
     gfpublic.resetOptions = function () {
         $.extend(gfprivate, gfprivate.DEFAULT_OPTIONS);
     };
+    
+    gfpublic.getPopulation = function () {
+        return gfprivate.population;
+    }
 
     // Options merging (requires Jquery)
     $.extend(gfprivate, options);
