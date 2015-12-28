@@ -48,12 +48,6 @@ var GF = function (GENE_STRUCTURE, options) {
     // Generation Population Array
     gfprivate.population = [];
 
-    // Tests a single chromosome's fitness and returns the score
-    gfprivate.getFitnessScore = function (genes) {
-        var score = gfprivate.fitnessFunction(genes);
-        return score;
-    };
-
     // Sort (descending) chromosomes based on score
     gfprivate.sortPopulation = function () {
         gfprivate.population.sort(function (a,b) {
@@ -89,9 +83,9 @@ var GF = function (GENE_STRUCTURE, options) {
     gfprivate.generateChromosome = function () {
         var newChromosome = gfprivate.GENE_STRUCTURE,
             property;
-        for (property in newChromosome) {
-            if (newChromosome.hasOwnProperty(property)) {
-                newChromosome[property] = Math.random();
+        for (property in newChromosome.genes) {
+            if (newChromosome.genes.hasOwnProperty(property)) {
+                newChromosome.genes[property] = Math.random();
             }
         }
         return newChromosome;
@@ -106,6 +100,40 @@ var GF = function (GENE_STRUCTURE, options) {
             }
         }
     };
+    
+    // Evaluate scores of all chromosomes and sets their score property
+    gfprivate.evaluate = function () {
+        for (i = 0; i < gfprivate.population.length; i+=1) {
+            var score = { score: gfprivate.fitnessFunction(gfprivate.population[i].genes)};
+            $.extend(gfprivate.population[i],score);
+        }
+    }
+    
+    // Selects the most fit in the population
+    gfprivate.select = function () {
+        var fittestChromosomes = [];
+        // Since they are sorted we simply select the first NUM_TO_SELECT
+        for (i = 0; i < gfprivate.NUM_TO_SELECT; i += 1) {
+            fittestChromosomes.push(gfprivate.population[i]);
+        }
+    }
+    
+    // Crossover of the most fit
+    gfprivate.cross = function () {
+        var crossoverPopulation = [];
+        for (i = 0; i < gfprivate.population.length; i += 1) {
+            for (ii = 1; ii < gfprivate.population.length - i; ii += 1) {
+                // 50/50 chance for selecting genes
+                var crossoverChromosome = gfprivate.crossover(gfprivate.population[i], gfprivate.population[ii]);
+                crossoverPopulation.push(crossoverChromosome);
+            }
+        }
+    }
+    
+    // Mutate population
+    gfprivate.mutate = function () {
+        
+    }
 
     // Class public methods/properties
     var gfpublic = {};
@@ -114,7 +142,7 @@ var GF = function (GENE_STRUCTURE, options) {
         /* CREATE RANDOM POPULATION */
         for (i = 0; i < gfprivate.MAX_POPULATION_SIZE; i += 1) {
             // Create new random chromosome
-            var newChromosome = $.extend({},gfprivate.generateChromosome());
+            var newChromosome = $.extend(true, {}, gfprivate.generateChromosome());
             // Add it to the population
             gfprivate.population.push(newChromosome);
         }
@@ -138,43 +166,24 @@ var GF = function (GENE_STRUCTURE, options) {
             console.error("No population initialized. Hint: Use .init before .evolve");
             return;
         }
-
+        
+        // Loops for each generation
         while (generationCount--) {
-
+            /* START EVOLUTION */
+            
             /* EVALUATION PHASE */
 
-            // Pass all chromosomes to fitness function and get all scores
-            for (chromo in gfprivate.population) {
-                // Get the fitness core
-                var score = gfprivate.getFitnessScore(chromo);
-                // Set the score property of the chromosome
-                chromo.score = score;
-            }
-
+            gfprivate.evaluate(); // Test all chromosomes and score them
+            
             /* SELECTION PHASE */
 
-            // Sort most fit to least fit chromosomes
-            gfprivate.sortPopulation();
-            // Select best chromosomes
-            var fittestChromosomes = [];
-            for (i = 0; i < gfprivate.NUM_TO_SELECT; i += 1) {
-                fittestChromosomes.push(gfprivate.population[i]);
-            }
+            gfprivate.sortPopulation(); // Sort most fit to least fit chromosomes
+            gfprivate.select(); // Select best chromosomes
 
             /* CROSSOVER & MUTATION PHASE */
-
-            var crossoverPopulation = [];
-            for (i = 0; i < gfprivate.population.length; i += 1) {
-                for (ii = 1; ii < gfprivate.population.length - i; ii += 1) {
-                    // 50/50 chance for selecting genes
-                    var crossoverChromosome = gfprivate.crossover(gfprivate.population[i], gfprivate.population[ii]);
-                    crossoverPopulation.push(crossoverChromosome);
-                }
-            }
-
-            /* ASSIGN CROSS OVER AS NEW POPULATION */
-
-            gfprivate.population = crossoverPopulation;
+            
+            gfprivate.cross();
+            gfprivate.mutate();
 
             /* REPEAT UNTIL LAST GENERATION */
         }
@@ -185,6 +194,7 @@ var GF = function (GENE_STRUCTURE, options) {
         $.extend(gfprivate, gfprivate.DEFAULT_OPTIONS);
     };
     
+    // Pretty straightforward
     gfpublic.getPopulation = function () {
         return gfprivate.population;
     }
