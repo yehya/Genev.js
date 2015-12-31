@@ -10,6 +10,11 @@ var GF = function (CHROMO_STRUCTURE, options) {
         return null;
     }
     
+    // Accept both genes object or chromo->genes object
+    if ((typeof CHROMO_STRUCTURE.genes === "undefined")) {
+        CHROMO_STRUCTURE.genes = CHROMO_STRUCTURE;
+    }
+    
     ///////////////////////////////////////////////////////////
     //      START OF PRIVATE CLASS METHODS/PROPERTIES
     ///////////////////////////////////////////////////////////
@@ -40,7 +45,7 @@ var GF = function (CHROMO_STRUCTURE, options) {
     // Mutation probability
     gfprivate.MUTATION_PROB = 0.05; // default to 5%
 
-    // Selection number
+    // Selection number (a.k.a. tournament winners)
     gfprivate.NUM_TO_SELECT = 10; // default to 10 tributes (they volunteer)
 
     // Chromosome atrributes
@@ -61,9 +66,9 @@ var GF = function (CHROMO_STRUCTURE, options) {
 
     // Crossover Xgene and Ygene and return crossover
     gfprivate.crossover = function (Xchromo, Ychromo) {
-        var crossedChromo = $.extend({},gfprivate.chromosome),
-            property;
-        for (property in Xchromo.genes) {
+        var crossedChromo = $.extend({},gfprivate.chromosome), // create new chromosome
+            property; // holds the looped property
+        for (property in Xchromo.genes) { // loop through all weights
             if (Xchromo.genes.hasOwnProperty(property)) {
                 // 50/50 chance of picking a gene from either
                 crossedChromo.genes[property] = ((Math.random() > 0.5) ? Xchromo.genes[property] : Ychromo.genes[property]);
@@ -226,6 +231,9 @@ var GF = function (CHROMO_STRUCTURE, options) {
     }
 
     // Options merging
+    // This also adds extra flexibility to users who want more control over
+    // genev as it also allows them to replace private methods/properties. (so they're not completely private...)
+    // TODO Decide if we want to keep it this way
     $.extend(gfprivate, options);
     
     // Return class public methods (a.k.a. make them available for use)
