@@ -158,15 +158,8 @@ var GF = function (CHROMO_STRUCTURE, options) {
             gfprivate.population[i] = JSON.parse(JSON.stringify(gfprivate.getMutated(gfprivate.population[i]))); // HACK, TODO FIX
         }
     }
-
-    ///////////////////////////////////////////////////////////
-    //             START OF PUBLIC METHODS/API
-    ///////////////////////////////////////////////////////////
     
-    // Class public methods/properties
-    var gfpublic = {};
-
-    gfpublic.initPopulation = function (chromosomeStruct) {
+    gfprivate.initRandomPop = function () {
         /* CREATE RANDOM POPULATION */
         for (var i = 0; i < gfprivate.MAX_POPULATION_SIZE; i += 1) {
             // Create new random chromosome
@@ -174,6 +167,40 @@ var GF = function (CHROMO_STRUCTURE, options) {
             // Add it to the population
             gfprivate.population.push(newChromosome);
         }
+    }
+
+    ///////////////////////////////////////////////////////////
+    //             START OF PUBLIC METHODS/API
+    ///////////////////////////////////////////////////////////
+    
+    /** Class public methods/properties */
+    var gfpublic = {};
+
+    gfpublic.initPopulation = function (initpop, validate) {
+        if (typeof initpop !== "undefined") {
+            if (typeof validate !== "undefined" && validate === true) {
+                // validate that all objects in input initpop contain correct properties (CHROMO_STRUCTURE)
+                for (var i = 0; i < initpop; i += 1) {
+                    var property;
+                    if (typeof initpop[i].genes === "undefined") {
+                        // chromosomes not built properly, they need to have a genes properties
+                        // TODO need some kind of error handler
+                        return;
+                    }
+                    for (property in gfprivate.CHROMO_STRUCTURE) {
+                        if (typeof initpop[i].genes[property] === "undefined") {
+                            // Missing property discovered one of initpop's chromosomes
+                            return;
+                        }
+                    }
+                }
+            }
+            /* Initialize with provided population */
+            gfprivate.population = [];
+            gfprivate.population.push(initpop);
+        }
+        /* Init random if one is not provided */
+        gfprivate.initRandomPop();
     };
 
     gfpublic.evolve = function (evolveOptions, fitfunc) {
