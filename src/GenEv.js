@@ -1,11 +1,11 @@
-/*global $, jQuery, alert, console, i, j, ii*/
+/*global $, jQuery, i, j, ii*/
 
 var GF = function (CHROMO_STRUCTURE, options) {
     
     "use strict";
 
     // Check for invalid parameter CHROMO_STRUCTURE
-    if ((typeof CHROMO_STRUCTURE === "undefined")) {
+    if ((typeof CHROMO_STRUCTURE === "undefined") || (typeof CHROMO_STRUCTURE !== "object")) {
         // console.error("Invalid parameter passed to GF. You need to pass a chromosome structure.");
         return null;
     }
@@ -225,7 +225,7 @@ var GF = function (CHROMO_STRUCTURE, options) {
         return gfprivate.population;
     }
 
-    // Options merging (requires Jquery)
+    // Options merging
     $.extend(gfprivate, options);
     
     // Return class public methods (a.k.a. make them available for use)
