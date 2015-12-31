@@ -1,12 +1,12 @@
 /*global $, jQuery, alert, console, i, j, ii*/
 
-var GF = function (GENE_STRUCTURE, options) {
+var GF = function (CHROMO_STRUCTURE, options) {
     
     "use strict";
 
-    // Check for invalid parameter GENE_STRUCTURE
-    if ((typeof GENE_STRUCTURE === "undefined")) {
-        // console.error("Invalid parameter passed to GF. You need to pass a gene structure.");
+    // Check for invalid parameter CHROMO_STRUCTURE
+    if ((typeof CHROMO_STRUCTURE === "undefined")) {
+        // console.error("Invalid parameter passed to GF. You need to pass a chromosome structure.");
         return null;
     }
     
@@ -17,8 +17,8 @@ var GF = function (GENE_STRUCTURE, options) {
     /** Object that represents all of the class private methods and properties. */
     var gfprivate = {};
 
-    // Gene structure
-    gfprivate.GENE_STRUCTURE = GENE_STRUCTURE;
+    // Chromosome structure
+    gfprivate.CHROMO_STRUCTURE = CHROMO_STRUCTURE;
 
     // Default options
     gfprivate.DEFAULT_OPTIONS = {
@@ -86,7 +86,7 @@ var GF = function (GENE_STRUCTURE, options) {
 
     // Generates a new random chromosome using the structure provided
     gfprivate.generateChromosome = function () {
-        var newChromosome = gfprivate.GENE_STRUCTURE,
+        var newChromosome = gfprivate.CHROMO_STRUCTURE,
             property;
         for (property in newChromosome.genes) {
             if (newChromosome.genes.hasOwnProperty(property)) {
