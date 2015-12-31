@@ -153,7 +153,7 @@ var GF = function (CHROMO_STRUCTURE, options) {
     }
     
     // Mutate population
-    gfprivate.mutate = function () {
+    gfprivate.mutatePopulation = function () {
         for (var i = 0; i < gfprivate.population.length; i += 1) {
             gfprivate.population[i] = JSON.parse(JSON.stringify(gfprivate.getMutated(gfprivate.population[i]))); // HACK, TODO FIX
         }
@@ -234,10 +234,13 @@ var GF = function (CHROMO_STRUCTURE, options) {
 
             gfprivate.selectFittest(); // Select most fit chromosomes in terms of score attribute
 
-            /* CROSSOVER & MUTATION PHASE */
+            /* CROSSOVER PHASE */
             
             gfprivate.crossPopulation();
-            gfprivate.mutate();
+            
+            /* MUTATION PHASE */
+            
+            gfprivate.mutatePopulation();
             
             /* REPEAT UNTIL LAST GENERATION */
         }
