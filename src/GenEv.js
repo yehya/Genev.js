@@ -130,7 +130,7 @@ var GF = function (CHROMO_STRUCTURE, options) {
         gfprivate.population = [];
         for (var i = 0; i < gfprivate.MAX_POPULATION_SIZE; i += 1) {
             var selector = Math.floor(Math.random()*selectionPop.length); // Random number from 0 to selectionPop.length
-            gfprivate.population.push($.extend({},selectionPop[selector])); // add the selected value to the population
+            gfprivate.population.push(JSON.parse(JSON.stringify($.extend({},selectionPop[selector])))); // add the selected value to the population, TODO Hack solution, replace
         }
     }
     
@@ -243,6 +243,7 @@ var GF = function (CHROMO_STRUCTURE, options) {
             gfprivate.mutatePopulation();
             
             /* REPEAT UNTIL LAST GENERATION */
+            // TODO Provide functionality for exiting when a certain condition (or score) is met/reached
         }
         
         /* END EVOLUTION */
