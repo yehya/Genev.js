@@ -1,2 +1,2 @@
-# GenEv.js
+# Genev.js
 Genetic Evolution Algorithm framework
