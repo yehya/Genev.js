@@ -176,6 +176,11 @@ var GF = function (CHROMO_STRUCTURE, options) {
     /** Class public methods/properties */
     var gfpublic = {};
 
+    /** Initializes the population with either user provided chromosomes or randomly generates them
+     * @param initpop (optional) User provided array of initial chromosomes
+     * @param validate (optional) Set true if you want genev to validate your array. It is optional as it could be an expensive process.
+     * @returns boolean If you provided ```validate``` as true, it will return false when initialization has failed because of invalid data.
+     */
     gfpublic.initPopulation = function (initpop, validate) {
         if (typeof initpop !== "undefined") {
             if (typeof validate !== "undefined" && validate === true) {
@@ -202,7 +207,12 @@ var GF = function (CHROMO_STRUCTURE, options) {
         /* Init random if one is not provided */
         gfprivate.initRandomPop();
     };
-
+    
+    /** Evolves the population 
+     * @param evolveOptions object that accepts options (optional)
+     * @param fitfunc a fitness function (optional)
+     * @returns void
+     */
     gfpublic.evolve = function (evolveOptions, fitfunc) {
         // Update options again.
         $.extend(gfprivate, evolveOptions);
@@ -251,12 +261,14 @@ var GF = function (CHROMO_STRUCTURE, options) {
         gfprivate.selectFittest();
     };
 
-    // Resets all options to the defaults
+    /** Resets all options to the defaults */
     gfpublic.resetOptions = function () {
         $.extend(gfprivate, gfprivate.DEFAULT_OPTIONS);
     };
     
-    // Pretty straightforward
+    /** Returns the population currently in gfprivate.population
+     * @returns array Array of chromosomes 
+     */
     gfpublic.getPopulation = function () {
         return gfprivate.population;
     }
