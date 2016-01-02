@@ -126,7 +126,11 @@ var GF = function (CHROMO_STRUCTURE, options) {
     // Selects the most fit in the population
     gfprivate.selectFittest = function () {
         gfprivate.sortPopulation();
-        gfprivate.population.splice(gfprivate.NUM_TO_SELECT);
+        if (gfprivate.NUM_TO_SELECT > 0) {
+            gfprivate.population.splice(gfprivate.NUM_TO_SELECT);
+        } else {
+            gfprivate.population.splice(1); // If NUM_TO_SELECT is 0 for somereason, we select 1
+        }
     }
     
     // Selects random chromosomes in a population
