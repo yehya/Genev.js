@@ -30,7 +30,8 @@ var GF = function (CHROMO_STRUCTURE, options) {
         MAX_POPULATION_SIZE: 45,
         MAX_GENERATIONS: 100,
         MUTATION_PROB: 0.05,
-        NUM_TO_SELECT: 10
+        NUM_TO_SELECT: 10,
+        EXIT_SCORE: -1 // -1 always runs until MAX_GENERATIONS is reached
     };
 
     // Setting default options 
@@ -51,7 +52,8 @@ var GF = function (CHROMO_STRUCTURE, options) {
     // Chromosome atrributes
     gfprivate.chromosome = {
         genes: {},
-        score: 0
+        score: 0,
+        generation: 0
     };
 
     // Generation Population Array
@@ -74,12 +76,14 @@ var GF = function (CHROMO_STRUCTURE, options) {
                 crossedChromo.genes[property] = ((Math.random() > 0.5) ? Xchromo.genes[property] : Ychromo.genes[property]);
             }
         }
+        // increase generation
+        crossedChromo.generation = Xchromo.generation + 1;
         return $.extend({},crossedChromo);
     };
 
     // Mutate individual chromosomes
     gfprivate.getMutated = function (chromo) {
-        var mutatedChromo = $.extend({},gfprivate.chromosome),
+        var mutatedChromo = $.extend({},chromo),
             property;
         for (property in chromo.genes) {
             if (chromo.genes.hasOwnProperty(property)) {
@@ -168,6 +172,15 @@ var GF = function (CHROMO_STRUCTURE, options) {
             gfprivate.population.push(newChromosome);
         }
     }
+    
+    gfprivate.exitScoreReached = function () {
+        if (gfprivate.EXIT_SCORE !== -1) {
+            if (gfprivate.population[0].score >= gfprivate.EXIT_SCORE) {
+                return true;
+            }
+        }
+        return false;
+    }
 
     ///////////////////////////////////////////////////////////
     //             START OF PUBLIC METHODS/API
@@ -243,6 +256,12 @@ var GF = function (CHROMO_STRUCTURE, options) {
             /* SELECTION PHASE */
 
             gfprivate.selectFittest(); // Select most fit chromosomes in terms of score attribute
+            
+            /* BREAK CONDITION/SCORE CHECK */
+            
+            if (gfprivate.exitScoreReached()) {
+                break;
+            }
 
             /* CROSSOVER PHASE */
             
@@ -253,7 +272,6 @@ var GF = function (CHROMO_STRUCTURE, options) {
             gfprivate.mutatePopulation();
             
             /* REPEAT UNTIL LAST GENERATION */
-            // TODO Provide functionality for exiting when a certain condition (or score) is met/reached
         }
         
         /* END EVOLUTION */
