@@ -121,7 +121,7 @@ var GF = function (CHROMO_STRUCTURE, options) {
             var score = { score: gfprivate.fitnessFunction(gfprivate.population[i].genes)};
             $.extend(gfprivate.population[i],score);
         }
-    }
+    };
     
     // Selects the most fit in the population
     gfprivate.selectFittest = function () {
@@ -131,7 +131,7 @@ var GF = function (CHROMO_STRUCTURE, options) {
         } else {
             gfprivate.population.splice(1); // If NUM_TO_SELECT is 0 for somereason, we select 1
         }
-    }
+    };
     
     // Selects random chromosomes in a population
     gfprivate.selectRandom = function (selectionPop) {
@@ -140,7 +140,17 @@ var GF = function (CHROMO_STRUCTURE, options) {
             var selector = Math.floor(Math.random()*selectionPop.length); // Random number from 0 to selectionPop.length
             gfprivate.population.push(JSON.parse(JSON.stringify($.extend({},selectionPop[selector])))); // add the selected value to the population, TODO Hack solution, replace
         }
-    }
+    };
+    
+    // Controls extending the options
+    gfprivate.extend = function (options) {
+        $.extend(gfprivate, options);
+        if (gfprivate.MAX_POPULATION_SIZE < 10) {
+            gfprivate.MAX_POPULATION_SIZE = 10;
+        } else if (gfprivate.NUM_TO_SELECT < 1) {
+            gfprivate.NUM_TO_SELECT = 1;
+        }
+    };
     
     /** Crossover the entire population in gfprivate.population
      * This method has the efficiency class of O(n^2) but is usually run on the fittest
@@ -232,7 +242,7 @@ var GF = function (CHROMO_STRUCTURE, options) {
      */
     gfpublic.evolve = function (evolveOptions, fitfunc) {
         // Update options again.
-        $.extend(gfprivate, evolveOptions);
+        gfprivate.extend(evolveOptions);
 
         // The generation counter
         var generationCount = gfprivate.MAX_GENERATIONS;
@@ -285,7 +295,7 @@ var GF = function (CHROMO_STRUCTURE, options) {
 
     /** Resets all options to the defaults */
     gfpublic.resetOptions = function () {
-        $.extend(gfprivate, gfprivate.DEFAULT_OPTIONS);
+        gfprivate.extend(gfprivate.DEFAULT_OPTIONS);
     };
     
     /** Returns the population currently in gfprivate.population
@@ -299,7 +309,7 @@ var GF = function (CHROMO_STRUCTURE, options) {
     // This also adds extra flexibility to users who want more control over
     // genev as it also allows them to replace private methods/properties. (so they're not completely private...)
     // TODO Decide if we want to keep it this way
-    $.extend(gfprivate, options);
+    gfprivate.extend(options);
     
     // Return class public methods (a.k.a. make them available for use)
     return gfpublic;
