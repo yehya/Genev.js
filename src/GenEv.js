@@ -27,27 +27,27 @@ var GF = function(CHROMO_STRUCTURE, options) {
 
   // Default options
   gfprivate.DEFAULT_OPTIONS = {
-    MAX_POPULATION_SIZE: 45,
-    MAX_GENERATIONS: 100,
-    MUTATION_PROB: 0.05,
-    NUM_TO_SELECT: 10,
-    EXIT_SCORE: -1 // -1 always runs until MAX_GENERATIONS is reached
+    maxPopulation: 45,
+    maxGenerations: 100,
+    mutationProb: 0.05,
+    numToSelect: 10,
+    exitScore: -1 // -1 always runs until maxGenerations is reached
   };
 
   // Setting default options
   $.extend(gfprivate, gfprivate.DEFAULT_OPTIONS);
 
   // Maximum population size
-  gfprivate.MAX_POPULATION_SIZE = 45; // default to 45
+  gfprivate.maxPopulation = 45; // default to 45
 
   // Maximum number of generations
-  gfprivate.MAX_GENERATIONS = 100; // default to 100
+  gfprivate.maxGenerations = 100; // default to 100
 
   // Mutation probability
-  gfprivate.MUTATION_PROB = 0.05; // default to 5%
+  gfprivate.mutationProb = 0.05; // default to 5%
 
   // Selection number (a.k.a. tournament winners)
-  gfprivate.NUM_TO_SELECT = 10; // default to 10 tributes (they volunteer)
+  gfprivate.numToSelect = 10; // default to 10 tributes (they volunteer)
 
   // Chromosome atrributes
   gfprivate.chromosome = {
@@ -87,7 +87,7 @@ var GF = function(CHROMO_STRUCTURE, options) {
         property;
     for (property in chromo.genes) {
       if (chromo.genes.hasOwnProperty(property)) {
-        mutatedChromo.genes[property] = ((Math.random() < gfprivate.MUTATION_PROB) ? Math.random() : chromo.genes[property]);
+        mutatedChromo.genes[property] = ((Math.random() < gfprivate.mutationProb) ? Math.random() : chromo.genes[property]);
       }
     }
     return mutatedChromo;
@@ -126,17 +126,17 @@ var GF = function(CHROMO_STRUCTURE, options) {
   // Selects the most fit in the population
   gfprivate.selectFittest = function() {
     gfprivate.sortPopulation();
-    if (gfprivate.NUM_TO_SELECT > 0) {
-      gfprivate.population.splice(gfprivate.NUM_TO_SELECT);
+    if (gfprivate.numToSelect > 0) {
+      gfprivate.population.splice(gfprivate.numToSelect);
     } else {
-      gfprivate.population.splice(1); // If NUM_TO_SELECT is 0 for somereason, we select 1
+      gfprivate.population.splice(1); // If numToSelect is 0 for somereason, we select 1
     }
   };
 
   // Selects random chromosomes in a population
   gfprivate.selectRandom = function(selectionPop) {
     gfprivate.population = [];
-    for (var i = 0; i < gfprivate.MAX_POPULATION_SIZE; i += 1) {
+    for (var i = 0; i < gfprivate.maxPopulation; i += 1) {
       var selector = Math.floor(Math.random() * selectionPop.length); // Random number from 0 to selectionPop.length
       gfprivate.population.push(JSON.parse(JSON.stringify($.extend({},selectionPop[selector])))); // add the selected value to the population, TODO Hack solution, replace
     }
@@ -145,10 +145,10 @@ var GF = function(CHROMO_STRUCTURE, options) {
   // Controls extending the options
   gfprivate.extend = function(options) {
     $.extend(gfprivate, options);
-    if (gfprivate.MAX_POPULATION_SIZE < 10) {
-      gfprivate.MAX_POPULATION_SIZE = 10;
-    } else if (gfprivate.NUM_TO_SELECT < 1) {
-      gfprivate.NUM_TO_SELECT = 1;
+    if (gfprivate.maxPopulation < 10) {
+      gfprivate.maxPopulation = 10;
+    } else if (gfprivate.numToSelect < 1) {
+      gfprivate.numToSelect = 1;
     }
   };
 
@@ -179,7 +179,7 @@ var GF = function(CHROMO_STRUCTURE, options) {
 
   gfprivate.initRandomPop = function() {
     /* CREATE RANDOM POPULATION */
-    for (var i = 0; i < gfprivate.MAX_POPULATION_SIZE; i += 1) {
+    for (var i = 0; i < gfprivate.maxPopulation; i += 1) {
       // Create new random chromosome
       var newChromosome = $.extend(true, {}, gfprivate.generateChromosome());
       // Add it to the population
@@ -188,12 +188,20 @@ var GF = function(CHROMO_STRUCTURE, options) {
   };
 
   gfprivate.exitScoreReached = function() {
-    if (gfprivate.EXIT_SCORE !== -1) {
-      if (gfprivate.population[0].score >= gfprivate.EXIT_SCORE) {
+    if (gfprivate.exitScore !== -1) {
+      if (gfprivate.population[0].score >= gfprivate.exitScore) {
         return true;
       }
     }
     return false;
+  };
+
+  /** Runs at the beginning of every generation loop. A.k.a. when the generation is born.
+   * @param population Array containing all chromosomes in the population
+   */
+  gfprivate.onNewGen = function(population) {
+    // default does nothing
+    return;
   };
 
   ///////////////////////////////////////////////////////////
@@ -245,7 +253,7 @@ var GF = function(CHROMO_STRUCTURE, options) {
     gfprivate.extend(evolveOptions);
 
     // The generation counter
-    var generationCount = gfprivate.MAX_GENERATIONS;
+    var generationCount = gfprivate.maxGenerations;
 
     // Set the fitness function if it was passed in
     if (typeof fitfunc === 'function') {
@@ -262,6 +270,10 @@ var GF = function(CHROMO_STRUCTURE, options) {
     // Loops for each generation
     while (generationCount--) {
       /* START EVOLUTION */
+
+      if (typeof gfprivate.onNewGen === 'function') {
+        gfprivate.onNewGen(gfprivate.population); // run default, or custom function if specified in the options
+      }
 
       /* EVALUATION PHASE */
 
