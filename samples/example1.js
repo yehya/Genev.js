@@ -14,7 +14,7 @@ var chromosome = { // all of these will hold double values from 0 to 1
 };
 
 // Sample fitness function
-var fitfunc = function (chromo) { // must take a chromosome
+var fitfunc = function (genes) { // must take genes
 	var score = Math.random();
 	return score;
 };
