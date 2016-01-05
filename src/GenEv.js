@@ -122,7 +122,7 @@ var GF = function(CHROMO_STRUCTURE, options) {
       $.extend(gfprivate.population[i],score);
     }
   };
-  
+
   /** Selects the most fit numToSelect in the population */
   gfprivate.selectFittest = function() {
     gfprivate.sortPopulation();
@@ -144,7 +144,7 @@ var GF = function(CHROMO_STRUCTURE, options) {
     }
   };
 
-  /** The method to be used when extending gfprivate with any options, 
+  /** The method to be used when extending gfprivate with any options,
    * It just checks for any invalid option values that essentially break everything, and fallsback to
    * some safe (probably default values, or not)
    * etc. */
