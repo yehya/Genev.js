@@ -6,11 +6,13 @@
 
 // Sample GENE_STRUCTURE
 var chromosome = { // all of these will hold double values from 0 to 1
-  weight1: 0,
-  weight2: 0,
-  weight3: 0,
-  weight4: 0,
-  weight5: 0
+  genes: {
+    weight1: 0,
+    weight2: 0,
+    weight3: 0,
+    weight4: 0,
+    weight5: 0
+  }
 };
 
 // Sample fitness function
