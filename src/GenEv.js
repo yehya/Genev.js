@@ -28,7 +28,7 @@ var GF = function(CHROMO_STRUCTURE, options) {
   // Default options
   gfprivate.DEFAULT_OPTIONS = {
     maxPopulation: 45,
-    maxGenerations: 100,
+    maxGenerations: 1000,
     mutationProb: 0.05,
     numToSelect: 10,
     exitScore: -1 // -1 always runs until maxGenerations is reached
@@ -271,13 +271,15 @@ var GF = function(CHROMO_STRUCTURE, options) {
     while (generationCount--) {
       /* START EVOLUTION */
 
-      if (typeof gfprivate.onNewGen === 'function') {
-        gfprivate.onNewGen(gfprivate.population); // run default, or custom function if specified in the options
-      }
-
       /* EVALUATION PHASE */
 
       gfprivate.evaluate(); // Test all chromosomes and score them
+      
+      /* AFTER EVALUATION CALLBACK */
+      
+      if (typeof gfprivate.onNewGen === 'function') {
+        gfprivate.onNewGen(gfprivate.population); // run default, or custom function if specified in the options
+      }
 
       /* SELECTION PHASE */
 
