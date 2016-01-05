@@ -133,7 +133,9 @@ var GF = function(CHROMO_STRUCTURE, options) {
     }
   };
 
-  // Selects random chromosomes in a population
+  /** Selects random chromosomes in a given population,
+   * and then pushes those selected to the main population (which is emptied before hand)
+   * @param selectionPop a population to select from */
   gfprivate.selectRandom = function(selectionPop) {
     gfprivate.population = [];
     for (var i = 0; i < gfprivate.maxPopulation; i += 1) {
@@ -142,9 +144,13 @@ var GF = function(CHROMO_STRUCTURE, options) {
     }
   };
 
-  // Controls extending the options
+  /** The method to be used when extending gfprivate with any options, 
+   * It just checks for any invalid option values that essentially break everything, and fallsback to
+   * some safe (probably default values, or not)
+   * etc. */
   gfprivate.extend = function(options) {
-    $.extend(gfprivate, options);
+    $.extend(gfprivate, options); // first we set whatever we were given
+    // Then we check, and fix them if need be
     if (gfprivate.maxPopulation < 10) {
       gfprivate.maxPopulation = 10;
     } else if (gfprivate.numToSelect < 1) {
@@ -170,13 +176,14 @@ var GF = function(CHROMO_STRUCTURE, options) {
     gfprivate.selectRandom(crossoverPopulation);
   };
 
-  // Mutate population
+  /** Mutates the entire population */
   gfprivate.mutatePopulation = function() {
     for (var i = 0; i < gfprivate.population.length; i += 1) {
       gfprivate.population[i] = JSON.parse(JSON.stringify(gfprivate.getMutated(gfprivate.population[i]))); // HACK, TODO FIX
     }
   };
 
+  /** Initializes the population array with a random set of chromosomes. */
   gfprivate.initRandomPop = function() {
     /* CREATE RANDOM POPULATION */
     for (var i = 0; i < gfprivate.maxPopulation; i += 1) {
@@ -187,6 +194,8 @@ var GF = function(CHROMO_STRUCTURE, options) {
     }
   };
 
+  /** Checks if the exit score has been reached
+   * @returns boolean */
   gfprivate.exitScoreReached = function() {
     if (gfprivate.exitScore !== -1) {
       if (gfprivate.population[0].score >= gfprivate.exitScore) {
@@ -196,7 +205,9 @@ var GF = function(CHROMO_STRUCTURE, options) {
     return false;
   };
 
-  /** Runs at the beginning of every generation loop. A.k.a. when the generation is born.
+  /** Runs at the beginning of every generation loop. A.k.a. when the generation is born (and evaluated).
+   * This should be changed to fit the special needs of every user.
+   * If you want to print/log/view the data after every generation, you would do it here.
    * @param population Array containing all chromosomes in the population
    */
   gfprivate.onNewGen = function(population) {
