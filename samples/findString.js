@@ -64,9 +64,9 @@ var onNewGen = function(pop) {
 var options = {
   maxGenerations: 1000,
   mutationProb: 0.1382005272898823, // 13% mutation
-  maxPopulation: 251, // The Max population
+  maxPopulation: 251,
   numToSelect: 37,
-  exitScore: ourString.length, // since the max score for "Hello, World!" is 13
+  exitScore: ourString.length, // The highest score possible is the length of our string
   onNewGen: onNewGen
 };
 
@@ -83,6 +83,7 @@ findString.evolve(options, fitfunc); // you can also pass in the options here ag
 
 // Population after evolving
 printReadable(findString.getPopulation());
+
 /* Some extra notes
 
 */
