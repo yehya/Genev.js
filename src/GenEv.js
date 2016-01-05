@@ -49,24 +49,24 @@ var GF = function(CHROMO_STRUCTURE, options) {
   // Selection number (a.k.a. tournament winners)
   gfprivate.numToSelect = 10; // default to 10 tributes (they volunteer)
 
-  // Chromosome atrributes
+  /** Chromosome atrributes */
   gfprivate.chromosome = {
     genes: {},
     score: 0,
     generation: 0
   };
 
-  // Generation Population Array
+  /** Generation Population Array */
   gfprivate.population = [];
 
-  // Sort (descending) chromosomes based on score
+  /** Sort (descending) chromosomes based on score */
   gfprivate.sortPopulation = function() {
     gfprivate.population.sort(function(a, b) {
       return b.score - a.score; // descending score order
     });
   };
 
-  // Crossover Xgene and Ygene and return crossover
+  /** Crossover Xgene and Ygene and return crossover */
   gfprivate.crossover = function(Xchromo, Ychromo) {
     var crossedChromo = $.extend({},gfprivate.chromosome), // create new chromosome
         property; // holds the looped property
@@ -81,7 +81,7 @@ var GF = function(CHROMO_STRUCTURE, options) {
     return $.extend({},crossedChromo);
   };
 
-  // Mutate individual chromosomes
+  /** Mutate individual chromosomes */
   gfprivate.getMutated = function(chromo) {
     var mutatedChromo = $.extend({},chromo),
         property;
@@ -93,7 +93,7 @@ var GF = function(CHROMO_STRUCTURE, options) {
     return mutatedChromo;
   };
 
-  // Generates a new random chromosome using the structure provided
+  /** Generates a new random chromosome using the structure provided */
   gfprivate.generateChromosome = function() {
     var newChromosome = gfprivate.CHROMO_STRUCTURE,
         property;
@@ -105,7 +105,7 @@ var GF = function(CHROMO_STRUCTURE, options) {
     return newChromosome;
   };
 
-  // Default fitness function (should be replaced with custom function by framework user)
+  /** Default fitness function (should be replaced with custom function by framework user) */
   gfprivate.fitnessFunction = function(genes) {
     var property;
     for (property in genes) {
@@ -115,15 +115,15 @@ var GF = function(CHROMO_STRUCTURE, options) {
     }
   };
 
-  // Evaluate scores of all chromosomes and sets their score property
+  /** Evaluate scores of all chromosomes and sets their score property */
   gfprivate.evaluate = function() {
     for (var i = 0; i < gfprivate.population.length; i += 1) {
       var score = {score: gfprivate.fitnessFunction(gfprivate.population[i].genes)};
       $.extend(gfprivate.population[i],score);
     }
   };
-
-  // Selects the most fit in the population
+  
+  /** Selects the most fit numToSelect in the population */
   gfprivate.selectFittest = function() {
     gfprivate.sortPopulation();
     if (gfprivate.numToSelect > 0) {
