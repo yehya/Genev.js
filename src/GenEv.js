@@ -274,9 +274,9 @@ var GF = function(CHROMO_STRUCTURE, options) {
       /* EVALUATION PHASE */
 
       gfprivate.evaluate(); // Test all chromosomes and score them
-      
+
       /* AFTER EVALUATION CALLBACK */
-      
+
       if (typeof gfprivate.onNewGen === 'function') {
         gfprivate.onNewGen(gfprivate.population); // run default, or custom function if specified in the options
       }
