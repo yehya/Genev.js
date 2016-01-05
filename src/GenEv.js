@@ -22,10 +22,10 @@ var GF = function(CHROMO_STRUCTURE, options) {
   /** Object that represents all of the class private methods and properties. */
   var gfprivate = {};
 
-  // Chromosome structure
+  /** Chromosome structure */
   gfprivate.CHROMO_STRUCTURE = CHROMO_STRUCTURE;
 
-  // Default options
+  /** Default options */
   gfprivate.DEFAULT_OPTIONS = {
     maxPopulation: 45,
     maxGenerations: 1000,
@@ -34,19 +34,19 @@ var GF = function(CHROMO_STRUCTURE, options) {
     exitScore: -1 // -1 always runs until maxGenerations is reached
   };
 
-  // Setting default options
-  $.extend(gfprivate, gfprivate.DEFAULT_OPTIONS);
+  /** Setting default options */
+  gfprivate.extend(gfprivate.DEFAULT_OPTIONS);
 
-  // Maximum population size
+  /** Maximum population size */
   gfprivate.maxPopulation = 45; // default to 45
 
-  // Maximum number of generations
+  /** Maximum number of generations */
   gfprivate.maxGenerations = 100; // default to 100
 
-  // Mutation probability
+  /** Mutation probability */
   gfprivate.mutationProb = 0.05; // default to 5%
 
-  // Selection number (a.k.a. tournament winners)
+  /** Selection number (a.k.a. tournament winners) */
   gfprivate.numToSelect = 10; // default to 10 tributes (they volunteer)
 
   /** Chromosome atrributes */
