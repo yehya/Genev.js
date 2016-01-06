@@ -333,7 +333,7 @@ var GF = function(CHROMO_STRUCTURE, options) {
   /////////////////////////////////////////////////////////// 
    
   /** Setting default options */
-  gfprivate.extend(gfprivate.DEFAULT_OPTIONS);
+  gfpublic.resetOptions();
 
   /* Options merging
   This also adds extra flexibility to users who want more control over
