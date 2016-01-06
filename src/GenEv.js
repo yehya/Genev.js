@@ -34,9 +34,6 @@ var GF = function(CHROMO_STRUCTURE, options) {
     exitScore: -1 // -1 always runs until maxGenerations is reached
   };
 
-  /** Setting default options */
-  gfprivate.extend(gfprivate.DEFAULT_OPTIONS);
-
   /** Maximum population size */
   gfprivate.maxPopulation = 45; // default to 45
 
@@ -330,11 +327,18 @@ var GF = function(CHROMO_STRUCTURE, options) {
   gfpublic.getPopulation = function() {
     return gfprivate.population;
   };
+  
+  ///////////////////////////////////////////////////////////
+  //                INIT SETUP
+  /////////////////////////////////////////////////////////// 
+   
+  /** Setting default options */
+  gfprivate.extend(gfprivate.DEFAULT_OPTIONS);
 
-  // Options merging
-  // This also adds extra flexibility to users who want more control over
-  // genev as it also allows them to replace private methods/properties. (so they're not completely private...)
-  // TODO Decide if we want to keep it this way
+  /* Options merging
+  This also adds extra flexibility to users who want more control over
+  genev as it also allows them to replace private methods/properties. (so they're not completely private...)
+  TODO Decide if we want to keep it this way */
   gfprivate.extend(options);
 
   // Return class public methods (a.k.a. make them available for use)
