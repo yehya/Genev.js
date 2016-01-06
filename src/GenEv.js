@@ -169,6 +169,7 @@ var GF = function(CHROMO_STRUCTURE, options) {
         var crossoverChromosome = $.extend({},gfprivate.crossover(gfprivate.population[i], gfprivate.population[ii]));
         crossoverPopulation.push(JSON.parse(JSON.stringify(crossoverChromosome))); // HACK SOLUTION FOR REFERENCE PROBLEM, TODO REPLACE THIS
       }
+      gfprivate.population[i] += 1; // increase the generation
       crossoverPopulation.push(JSON.parse(JSON.stringify(gfprivate.population[i]))); // Re-add all chromosomes used in crossing 
     }
     gfprivate.selectRandom(crossoverPopulation); // randomly select chromosomes in the crossoverPopulation and place them in the population
