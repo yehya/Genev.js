@@ -161,7 +161,7 @@ var GF = function(CHROMO_STRUCTURE, options) {
   /** Crossover the entire population in gfprivate.population
  * This method has the efficiency class of O(n^2) but is usually run on the fittest
  * chromosomes selected (which are only 10 by default). Keep this in mind when changing the
- * default ```NUM_SELECTED``` option.
+ * default ```numToSelect``` option.
  */
   gfprivate.crossPopulation = function() {
     var crossoverPopulation = [];
@@ -174,7 +174,7 @@ var GF = function(CHROMO_STRUCTURE, options) {
       }
       crossoverPopulation.push(JSON.parse(JSON.stringify(gfprivate.population[i]))); // Re-add all chromosomes used in crossing 
     }
-    gfprivate.selectRandom(crossoverPopulation);
+    gfprivate.selectRandom(crossoverPopulation); // randomly select chromosomes in the crossoverPopulation and place them in the population
   };
 
   /** Mutates the entire population */
