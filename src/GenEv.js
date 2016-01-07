@@ -134,10 +134,18 @@ var GF = function(CHROMO_STRUCTURE, options) {
    * and then pushes those selected to the main population (which is emptied before hand)
    * @param selectionPop a population to select from */
   gfprivate.selectRandom = function(selectionPop) {
+    // The number of chromosomes to randomly select should be the least of the two
+    var numToSelect = selectionPop.length < gfprivate.maxPopulation ? selectionPop.length : gfprivate.maxPopulation;
     gfprivate.population = [];
-    for (var i = 0; i < gfprivate.maxPopulation; i += 1) {
+    // TODO Avoid re-adding the same randomly selected chromosome
+    for (var i = 0; i < numToSelect; i += 1) {
       var selector = Math.floor(Math.random() * selectionPop.length); // Random number from 0 to selectionPop.length
       gfprivate.population.push(JSON.parse(JSON.stringify($.extend({},selectionPop[selector])))); // add the selected value to the population, TODO Hack solution, replace
+    }
+    // We then fill the rest of it with random chromosomes,
+    var restNum = gfprivate.maxPopulation - selectionPop.length;
+    for (var i = 0; i < restNum; i += 1) {
+      gfprivate.population.push(JSON.parse(JSON.stringify(gfprivate.generateChromosome())));
     }
   };
 
@@ -170,7 +178,7 @@ var GF = function(CHROMO_STRUCTURE, options) {
         crossoverPopulation.push(JSON.parse(JSON.stringify(crossoverChromosome))); // HACK SOLUTION FOR REFERENCE PROBLEM, TODO REPLACE THIS
       }
       gfprivate.population[i].generation += 1; // increase the generation
-      crossoverPopulation.push(JSON.parse(JSON.stringify(gfprivate.population[i]))); // Re-add all chromosomes used in crossing 
+      crossoverPopulation.push(JSON.parse(JSON.stringify(gfprivate.population[i]))); // Re-add all chromosomes used in crossing
     }
     gfprivate.selectRandom(crossoverPopulation); // randomly select chromosomes in the crossoverPopulation and place them in the population
   };
@@ -328,11 +336,11 @@ var GF = function(CHROMO_STRUCTURE, options) {
   gfpublic.getPopulation = function() {
     return gfprivate.population;
   };
-  
+
   ///////////////////////////////////////////////////////////
   //                INIT SETUP
-  /////////////////////////////////////////////////////////// 
-   
+  ///////////////////////////////////////////////////////////
+
   /** Setting default options */
   gfpublic.resetOptions();
 
