@@ -281,7 +281,7 @@ var GF = function(CHROMO_STRUCTURE, options) {
 
     // Abort
     // If the population is not initialized
-    if (!gfprivate.population.length) {
+    if (gfprivate.population.length == 0) {
       // console.error("No population initialized. Hint: Use .initPopulation before .evolve");
       return;
     }
@@ -297,7 +297,7 @@ var GF = function(CHROMO_STRUCTURE, options) {
       /* AFTER EVALUATION CALLBACK */
 
       if (typeof gfprivate.onNewGen === 'function') {
-        gfprivate.onNewGen(gfprivate.population); // run default, or custom function if specified in the options
+          gfprivate.onNewGen(gfprivate.population); // run default, or custom function if specified in the options
       }
 
       /* SELECTION PHASE */
