@@ -91,9 +91,10 @@ var GF = function(CHROMO_STRUCTURE, options) {
   };
 
   /** Generates a new random chromosome using the structure provided */
-  gfprivate.generateChromosome = function() {
-    var newChromosome = gfprivate.CHROMO_STRUCTURE,
+  gfprivate.newChromosome = function() {
+    var newChromosome = $.extend({},gfprivate.chromosome),
         property;
+        newChromosome.genes = gfprivate.CHROMO_STRUCTURE.genes;
     for (property in newChromosome.genes) {
       if (newChromosome.genes.hasOwnProperty(property)) {
         newChromosome.genes[property] = Math.random();
@@ -145,7 +146,7 @@ var GF = function(CHROMO_STRUCTURE, options) {
     // We then fill the rest of it with random chromosomes,
     var restNum = gfprivate.maxPopulation - selectionPop.length;
     for (var i = 0; i < restNum; i += 1) {
-      gfprivate.population.push(JSON.parse(JSON.stringify(gfprivate.generateChromosome())));
+      gfprivate.population.push(JSON.parse(JSON.stringify(gfprivate.newChromosome())));
     }
   };
 
@@ -195,7 +196,7 @@ var GF = function(CHROMO_STRUCTURE, options) {
     /* CREATE RANDOM POPULATION */
     for (var i = 0; i < gfprivate.maxPopulation; i += 1) {
       // Create new random chromosome
-      var newChromosome = $.extend(true, {}, gfprivate.generateChromosome());
+      var newChromosome = $.extend(true, {}, gfprivate.newChromosome());
       // Add it to the population
       gfprivate.population.push(newChromosome);
     }
