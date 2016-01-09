@@ -31,6 +31,7 @@ var GF = function(CHROMO_STRUCTURE, options) {
     maxGenerations: 1000,
     mutationProb: 0.05,
     numToSelect: 10,
+    elitism: true,
     exitScore: -1 // -1 always runs until maxGenerations is reached
   };
 
@@ -45,6 +46,12 @@ var GF = function(CHROMO_STRUCTURE, options) {
 
   /** Selection number (a.k.a. tournament winners) */
   gfprivate.numToSelect = 10; // default to 10 tributes (they volunteer)
+
+  /** If true, ensures that the top chromosome always survives to next generation */
+  gfprivate.elitism = true; // default to true
+  
+  /** Holds the elite chromosome */
+  gfprivate.elite = {};
 
   /** Chromosome atrributes */
   gfprivate.chromosome = {
@@ -119,16 +126,18 @@ var GF = function(CHROMO_STRUCTURE, options) {
       var score = {score: gfprivate.fitnessFunction(gfprivate.population[i].genes)};
       $.extend(gfprivate.population[i],score);
     }
+    gfprivate.sortPopulation();
   };
 
   /** Selects the most fit numToSelect in the population */
   gfprivate.selectFittest = function() {
-    gfprivate.sortPopulation();
     if (gfprivate.numToSelect > 0) {
       gfprivate.population.splice(gfprivate.numToSelect);
     } else {
       gfprivate.population.splice(1); // If numToSelect is 0 for somereason, we select 1
     }
+    // Clone the elite and save it
+    gfprivate.elite = JSON.parse(JSON.stringify(gfprivate.population[0]));
   };
 
   /** Selects random chromosomes in a given population,
@@ -317,6 +326,10 @@ var GF = function(CHROMO_STRUCTURE, options) {
       /* MUTATION PHASE */
 
       gfprivate.mutatePopulation();
+      
+      /* ELITISM PHASE */
+      
+      gfprivate.population.push(gfprivate.elite);
 
       /* REPEAT UNTIL LAST GENERATION */
     }
