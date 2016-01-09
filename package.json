@@ -1,0 +1,30 @@
+{
+  "name": "genev",
+  "version": "0.1.0",
+  "description": "Genetic Evolution Algorithm framework",
+  "main": "src/Genev.js",
+  "dependencies": {
+    "jquery": "2.1.4"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/awadYehya/Genev.js.git"
+  },
+  "keywords": [
+    "genetic",
+    "algorithm",
+    "framework",
+    "evolution",
+    "genev"
+  ],
+  "author": "Yehya <yehyaawad.kip@gmail.com> (http://yehyaawad.com/)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/awadYehya/Genev.js/issues"
+  },
+  "homepage": "https://github.com/awadYehya/Genev.js#readme"
+}
