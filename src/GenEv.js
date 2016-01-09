@@ -49,7 +49,7 @@ var GF = function(CHROMO_STRUCTURE, options) {
 
   /** If true, ensures that the top chromosome always survives to next generation */
   gfprivate.elitism = true; // default to true
-  
+
   /** Holds the elite chromosome */
   gfprivate.elite = {};
 
@@ -101,7 +101,7 @@ var GF = function(CHROMO_STRUCTURE, options) {
   gfprivate.newChromosome = function() {
     var newChromosome = $.extend({},gfprivate.chromosome),
         property;
-        newChromosome.genes = gfprivate.CHROMO_STRUCTURE.genes;
+    newChromosome.genes = gfprivate.CHROMO_STRUCTURE.genes;
     for (property in newChromosome.genes) {
       if (newChromosome.genes.hasOwnProperty(property)) {
         newChromosome.genes[property] = Math.random();
@@ -138,6 +138,7 @@ var GF = function(CHROMO_STRUCTURE, options) {
     }
     // Clone the elite and save it
     gfprivate.elite = JSON.parse(JSON.stringify(gfprivate.population[0]));
+    gfprivate.elite.generation += 1;
   };
 
   /** Selects random chromosomes in a given population,
@@ -306,7 +307,7 @@ var GF = function(CHROMO_STRUCTURE, options) {
       /* AFTER EVALUATION CALLBACK */
 
       if (typeof gfprivate.onNewGen === 'function') {
-          gfprivate.onNewGen(gfprivate.population); // run default, or custom function if specified in the options
+        gfprivate.onNewGen(gfprivate.population); // run default, or custom function if specified in the options
       }
 
       /* SELECTION PHASE */
@@ -326,9 +327,9 @@ var GF = function(CHROMO_STRUCTURE, options) {
       /* MUTATION PHASE */
 
       gfprivate.mutatePopulation();
-      
+
       /* ELITISM PHASE */
-      
+
       gfprivate.population.push(gfprivate.elite);
 
       /* REPEAT UNTIL LAST GENERATION */
