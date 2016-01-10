@@ -1,0 +1,5 @@
+{
+	"preset": "google",
+	"fix": true,
+    "maximumLineLength": 200
+}
