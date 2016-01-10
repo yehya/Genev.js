@@ -83,7 +83,6 @@ findString.evolve(options, fitfunc); // you can also pass in the options here ag
 
 // Population after evolving
 printReadable(findString.getPopulation());
-
 /* Some extra notes
 
 */
