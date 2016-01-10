@@ -1,5 +1,5 @@
 {
 	"preset": "google",
-	"fix": true,
+	"fix": true, // auto-fixes your style (when it can)
     "maximumLineLength": 200
 }
