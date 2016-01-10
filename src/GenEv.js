@@ -12,7 +12,8 @@ var GF = function(CHROMO_STRUCTURE, options) {
 
   // Accept both genes object or chromo->genes object
   if ((typeof CHROMO_STRUCTURE.genes === 'undefined')) {
-    CHROMO_STRUCTURE.genes = CHROMO_STRUCTURE;
+    var genes = JSON.parse(JSON.stringify(CHROMO_STRUCTURE));
+    CHROMO_STRUCTURE = { genes: genes};
   }
 
   ///////////////////////////////////////////////////////////
