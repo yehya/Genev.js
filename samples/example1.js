@@ -4,6 +4,9 @@
  * Conceptual sample of how to use Genev
  */
 
+/**
+ * First we create our chromosome
+ */
 // Sample GENE_STRUCTURE
 var chromosome = { // all of these will hold double values from 0 to 1
   genes: {
@@ -15,14 +18,37 @@ var chromosome = { // all of these will hold double values from 0 to 1
   }
 };
 
+/**
+ * Then we create a fitness function that will be used to evaluate
+ * the fitness of each chromosome
+ * 
+ * In this case we will just add them up, therefore our ideal chromosome
+ * should be the one with the largest genes.
+ */
 // Sample fitness function
 var fitfunc = function(genes) { // must take genes
-  var score = Math.random();
+  var score = 0;
+  var gene;
+  for (gene in genes) {
+      score += gene;
+  }
   return score;
 };
 
+/**
+ * This is where we create a new Genev instance.
+ * First we will initialize it with the chromosome we created earlier.
+ */
 // Initializing the new Genetic Framework
 var myGF = GF(chromosome);
 
+/**
+ * Then we will use Genev's provided method initPopulation() which
+ * will generate a random set of chromosomes 
+ */
 myGF.initPopulation();
+
+/**
+ * And finally we start to evolve toward the solution
+ */
 myGF.evolve(fitfunc);
