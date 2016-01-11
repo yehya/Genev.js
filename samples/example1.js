@@ -5,7 +5,8 @@
  */
 
 /**
- * First we create our chromosome
+ * First we create our chromosome that will be used as
+ * the structure for chromosomes Genev will work with. 
  */
 // Sample GENE_STRUCTURE
 var chromosome = { // all of these will hold double values from 0 to 1
@@ -20,9 +21,9 @@ var chromosome = { // all of these will hold double values from 0 to 1
 
 /**
  * Then we create a fitness function that will be used to evaluate
- * the fitness of each chromosome
+ * the fitness of each chromosome.
  * 
- * In this case we will just add them up, therefore our ideal chromosome
+ * In this case we will get the sum of the genes, therefore our ideal chromosome
  * should be the one with the largest genes.
  */
 // Sample fitness function
