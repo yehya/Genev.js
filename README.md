@@ -27,5 +27,5 @@ var ff = function (genes) {
 // Use Genev
 var genev = GF(chromosome);
 genev.initPopulation();
-genev.evolve();
+genev.evolve(ff);
 ```
