@@ -278,7 +278,7 @@ var GF = function(CHROMO_STRUCTURE, options) {
  * @param fitfunc a fitness function (optional)
  * @returns void
  */
-  gfpublic.evolve = function(evolveOptions, fitfunc) {
+  gfpublic.evolve = function(fitfunc, evolveOptions) {
     // Update options again.
     gfprivate.extend(evolveOptions);
 
