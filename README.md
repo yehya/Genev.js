@@ -8,7 +8,7 @@ Todo:
 * Add tests
 * Node.js-ify
 * CONTRIBUTING.md - Really want this to be open source
-* 
+  
 ##In a nutshell
 ```javascript
 // Create a chromosome
