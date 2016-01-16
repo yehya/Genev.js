@@ -15,18 +15,18 @@ Todo:
 // Create a chromosome
 var chromosome = {
   gene1: null,
-  gene2: null
+  gene2: null 
 };
 
 // Create a fitness function
 var ff = function (genes) {
   var gene, score = 0;
-  for (gene in genes) { score += gene; }
+  for (gene in genes) { score += gene; } // score will be a sum of the genes
   return score;
 }
 
 // Use Genev
-var genev = GF(chromosome);
-genev.initPopulation();
-genev.evolve(ff);
+var genev = GF(chromosome); // set it up with our chromosmoe
+genev.initPopulation(); // initialize it
+genev.evolve(ff); // let it rip!
 ```
