@@ -38,7 +38,7 @@ var fitfunc = function(genes) {
     }
     i += 1; // the property corresponds with the character in ith position
   }
-  return score; // 0 - ourString.length, each correct char is 1 point
+  return score; // 0 to ourString.length, each correct char is 1 point
 };
 
 var printReadable = function(population) {
