@@ -7,8 +7,10 @@ Genev is a framework that lets you easily use the genetic algorithm search heuri
 Todo:
 * Add method chaining
 * Add tests
+* Add Travis
 * Node.js-ify
-* CONTRIBUTING.md - Really want this to be open source
+* CONTRIBUTING.md
+* npm-ify
   
 ##In a nutshell
 ```javascript
