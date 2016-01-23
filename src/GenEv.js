@@ -1,6 +1,6 @@
 /*global $, jQuery, i, j, ii*/
 
-var GF = function(CHROMO_STRUCTURE, options) {
+var genev = function(CHROMO_STRUCTURE, options) {
 
   'use strict';
 

@@ -55,7 +55,7 @@ var options = {
 };
 
 /** Our genev object initialized with our CHROMO_STRUCTURE */
-var find50 = GF(chromosome);
+var find50 = genev(chromosome);
 
 /* Init it with your own population or it will generate random ones */
 find50.initPopulation(); // generates random population

@@ -78,7 +78,7 @@ var options = {
 };
 
 /** Our genev object initialized with our CHROMO_STRUCTURE */
-var findHelloWorld = GF(chromosome, options);
+var findHelloWorld = genev(chromosome, options);
 
 /* Init it with your own population or it will generate random ones */
 findHelloWorld.initPopulation(); // generates random population

@@ -41,7 +41,7 @@ var fitfunc = function(genes) { // must take genes
  * First we will initialize it with the chromosome we created earlier.
  */
 // Initializing the new Genetic Framework
-var myGF = GF(chromosome);
+var myGF = genev(chromosome);
 
 /**
  * Then we will use Genev's provided method initPopulation() which
