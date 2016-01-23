@@ -57,7 +57,7 @@ var printReadable = function(population) {
       var geneChar = String.fromCharCode(Math.floor(population[i].genes[property] * 255));
       string += geneChar;
     }
-    console.log('#' + i + ' ' + string);
+    console.log('Generation #' + population[0].generation+" "+string);
   }
 };
 
@@ -86,7 +86,8 @@ findHelloWorld.initPopulation(); // generates random population
 // Population before evolving
 printReadable(findHelloWorld.getPopulation());
 
-findHelloWorld.evolve(fitfunc); // you can also pass in the options here again.
+// Start evolving
+findHelloWorld.evolve(fitfunc);
 
 // Population after evolving
 printReadable(findHelloWorld.getPopulation());
