@@ -1,5 +1,6 @@
 {
 	"preset": "google",
-	"fix": true, // auto-fixes your style (when it can)
-    "maximumLineLength": 200
+	"fix": true,
+    "maximumLineLength": 200,
+    "disallowMultipleVarDecl": false
 }
