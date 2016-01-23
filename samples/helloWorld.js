@@ -86,7 +86,7 @@ findHelloWorld.initPopulation(); // generates random population
 // Population before evolving
 printReadable(findHelloWorld.getPopulation());
 
-findHelloWorld.evolve(options, fitfunc); // you can also pass in the options here again.
+findHelloWorld.evolve(fitfunc); // you can also pass in the options here again.
 
 // Population after evolving
 printReadable(findHelloWorld.getPopulation());

@@ -59,7 +59,7 @@ var find50 = GF(chromosome);
 
 /* Init it with your own population or it will generate random ones */
 find50.initPopulation(); // generates random population
-find50.evolve(options, fitfunc);
+find50.evolve(fitfunc, options);
 /* Some extra notes
 
 Mutation:

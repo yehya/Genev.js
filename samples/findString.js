@@ -79,7 +79,7 @@ findString.initPopulation(); // generates random population
 // Population before evolving
 printReadable(findString.getPopulation());
 
-findString.evolve(options, fitfunc); // you can also pass in the options here again.
+findString.evolve(fitfunc, options); // you can also pass in the options here again.
 
 // Population after evolving
 printReadable(findString.getPopulation());
