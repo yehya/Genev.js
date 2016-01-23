@@ -1,8 +1,8 @@
 /*global $, jQuery, i, j, ii*/
 
-var genev = function(CHROMO_STRUCTURE, options) {
+'use strict';
 
-  'use strict';
+var genev = function(CHROMO_STRUCTURE, options) {
 
   // Check for invalid parameter CHROMO_STRUCTURE
   if ((typeof CHROMO_STRUCTURE === 'undefined') || (typeof CHROMO_STRUCTURE !== 'object')) {
