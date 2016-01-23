@@ -9,7 +9,6 @@ Todo:
 * Add tests
 * Add Travis
 * Node.js-ify
-* CONTRIBUTING.md
 * npm-ify
   
 ##In a nutshell
