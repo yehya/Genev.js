@@ -8,6 +8,18 @@
 
   var genev = function(CHROMO_STRUCTURE, options) {
 
+    var requireExists = typeof require !== 'undefined';
+
+    var _ = root._;
+
+    if (typeof _ === 'undefined') {
+      if (requireExists) {
+        _ = require('underscore');
+      } else {
+        throw new Error('genev requires underscore.js');
+      }
+    }
+
     // Check for invalid parameter CHROMO_STRUCTURE
     if ((typeof CHROMO_STRUCTURE === 'undefined') || (typeof CHROMO_STRUCTURE !== 'object')) {
       // console.error("Invalid parameter passed to GF. You need to pass a chromosome structure.");
