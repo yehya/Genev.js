@@ -378,5 +378,14 @@
     root.genev = prevGenev;
     return genev;
   };
-  
+
+  if (typeof exports !== 'undefined') {
+    if (typeof module !== 'undefined' && module.exports) {
+      exports = module.exports = genev;
+    }
+    exports.genev = genev;
+  } else {
+    root.genev = genev;
+  }
+
 }).call(this);
