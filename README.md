@@ -8,7 +8,6 @@ Todo:
 * Add method chaining
 * Add tests
 * Add Travis
-* Node.js-ify
 * npm-ify
   
 ##In a nutshell
