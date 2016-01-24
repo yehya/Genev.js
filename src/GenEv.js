@@ -2,32 +2,36 @@
 
 'use strict';
 
-var genev = function(CHROMO_STRUCTURE, options) {
+(function() {
+  var root = this;
+  var prevGenev = root.genev;
+  
+  var genev = function(CHROMO_STRUCTURE, options) {
 
-  // Check for invalid parameter CHROMO_STRUCTURE
-  if ((typeof CHROMO_STRUCTURE === 'undefined') || (typeof CHROMO_STRUCTURE !== 'object')) {
-    // console.error("Invalid parameter passed to GF. You need to pass a chromosome structure.");
-    return null;
-  }
+    // Check for invalid parameter CHROMO_STRUCTURE
+    if ((typeof CHROMO_STRUCTURE === 'undefined') || (typeof CHROMO_STRUCTURE !== 'object')) {
+      // console.error("Invalid parameter passed to GF. You need to pass a chromosome structure.");
+      return null;
+    }
 
-  // Accept both genes object or chromo->genes object
-  if ((typeof CHROMO_STRUCTURE.genes === 'undefined')) {
-    var genes = JSON.parse(JSON.stringify(CHROMO_STRUCTURE));
-    CHROMO_STRUCTURE = { genes: genes};
-  }
+    // Accept both genes object or chromo->genes object
+    if ((typeof CHROMO_STRUCTURE.genes === 'undefined')) {
+      var genes = JSON.parse(JSON.stringify(CHROMO_STRUCTURE));
+      CHROMO_STRUCTURE = {genes: genes};
+    }
 
-  ///////////////////////////////////////////////////////////
-  //      START OF PRIVATE CLASS METHODS/PROPERTIES
-  ///////////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////
+    //      START OF PRIVATE CLASS METHODS/PROPERTIES
+    ///////////////////////////////////////////////////////////
 
-  /** Object that represents all of the class private methods and properties. */
-  var gfprivate = {};
+    /** Object that represents all of the class private methods and properties. */
+    var gfprivate = {};
 
-  /** Chromosome structure */
-  gfprivate.CHROMO_STRUCTURE = CHROMO_STRUCTURE;
+    /** Chromosome structure */
+    gfprivate.CHROMO_STRUCTURE = CHROMO_STRUCTURE;
 
-  /** Default options */
-  gfprivate.DEFAULT_OPTIONS = {
+    /** Default options */
+    gfprivate.DEFAULT_OPTIONS = {
     maxPopulation: 45,
     maxGenerations: 1000,
     mutationProb: 0.05,
@@ -36,43 +40,43 @@ var genev = function(CHROMO_STRUCTURE, options) {
     exitScore: -1 // -1 always runs until maxGenerations is reached
   };
 
-  /** Maximum population size */
-  gfprivate.maxPopulation = 45; // default to 45
+    /** Maximum population size */
+    gfprivate.maxPopulation = 45; // default to 45
 
-  /** Maximum number of generations */
-  gfprivate.maxGenerations = 100; // default to 100
+    /** Maximum number of generations */
+    gfprivate.maxGenerations = 100; // default to 100
 
-  /** Mutation probability */
-  gfprivate.mutationProb = 0.05; // default to 5%
+    /** Mutation probability */
+    gfprivate.mutationProb = 0.05; // default to 5%
 
-  /** Selection number (a.k.a. tournament winners) */
-  gfprivate.numToSelect = 10; // default to 10 tributes (they volunteer)
+    /** Selection number (a.k.a. tournament winners) */
+    gfprivate.numToSelect = 10; // default to 10 tributes (they volunteer)
 
-  /** If true, ensures that the top chromosome always survives to next generation */
-  gfprivate.elitism = true; // default to true
+    /** If true, ensures that the top chromosome always survives to next generation */
+    gfprivate.elitism = true; // default to true
 
-  /** Holds the elite chromosome */
-  gfprivate.elite = {};
+    /** Holds the elite chromosome */
+    gfprivate.elite = {};
 
-  /** Chromosome atrributes */
-  gfprivate.chromosome = {
+    /** Chromosome atrributes */
+    gfprivate.chromosome = {
     genes: {},
     score: 0,
     generation: 0
   };
 
-  /** Generation Population Array */
-  gfprivate.population = [];
+    /** Generation Population Array */
+    gfprivate.population = [];
 
-  /** Sort (descending) chromosomes based on score */
-  gfprivate.sortPopulation = function() {
+    /** Sort (descending) chromosomes based on score */
+    gfprivate.sortPopulation = function() {
     gfprivate.population.sort(function(a, b) {
       return b.score - a.score; // descending score order
     });
   };
 
-  /** Crossover Xgene and Ygene and return crossover */
-  gfprivate.crossover = function(Xchromo, Ychromo) {
+    /** Crossover Xgene and Ygene and return crossover */
+    gfprivate.crossover = function(Xchromo, Ychromo) {
     var crossedChromo = $.extend({},gfprivate.chromosome), // create new chromosome
         property; // holds the looped property
     for (property in Xchromo.genes) { // loop through all weights
@@ -86,8 +90,8 @@ var genev = function(CHROMO_STRUCTURE, options) {
     return $.extend({},crossedChromo);
   };
 
-  /** Mutate individual chromosomes */
-  gfprivate.getMutated = function(chromo) {
+    /** Mutate individual chromosomes */
+    gfprivate.getMutated = function(chromo) {
     var mutatedChromo = $.extend({},chromo),
         property;
     for (property in chromo.genes) {
@@ -98,8 +102,8 @@ var genev = function(CHROMO_STRUCTURE, options) {
     return mutatedChromo;
   };
 
-  /** Generates a new random chromosome using the structure provided */
-  gfprivate.newChromosome = function() {
+    /** Generates a new random chromosome using the structure provided */
+    gfprivate.newChromosome = function() {
     var newChromosome = $.extend({},gfprivate.chromosome),
         property;
     newChromosome.genes = gfprivate.CHROMO_STRUCTURE.genes;
@@ -111,8 +115,8 @@ var genev = function(CHROMO_STRUCTURE, options) {
     return newChromosome;
   };
 
-  /** Default fitness function (should be replaced with custom function by framework user) */
-  gfprivate.fitnessFunction = function(genes) {
+    /** Default fitness function (should be replaced with custom function by framework user) */
+    gfprivate.fitnessFunction = function(genes) {
     var property;
     for (property in genes) {
       if (genes.hasOwnProperty(property)) {
@@ -121,8 +125,8 @@ var genev = function(CHROMO_STRUCTURE, options) {
     }
   };
 
-  /** Evaluate scores of all chromosomes and sets their score property */
-  gfprivate.evaluate = function() {
+    /** Evaluate scores of all chromosomes and sets their score property */
+    gfprivate.evaluate = function() {
     for (var i = 0; i < gfprivate.population.length; i += 1) {
       var score = {score: gfprivate.fitnessFunction(gfprivate.population[i].genes)};
       $.extend(gfprivate.population[i],score);
@@ -130,8 +134,8 @@ var genev = function(CHROMO_STRUCTURE, options) {
     gfprivate.sortPopulation();
   };
 
-  /** Selects the most fit numToSelect in the population */
-  gfprivate.selectFittest = function() {
+    /** Selects the most fit numToSelect in the population */
+    gfprivate.selectFittest = function() {
     if (gfprivate.numToSelect > 0) {
       gfprivate.population.splice(gfprivate.numToSelect);
     } else {
@@ -142,10 +146,10 @@ var genev = function(CHROMO_STRUCTURE, options) {
     gfprivate.elite.generation += 1;
   };
 
-  /** Selects random chromosomes in a given population,
-   * and then pushes those selected to the main population (which is emptied before hand)
-   * @param selectionPop a population to select from */
-  gfprivate.selectRandom = function(selectionPop) {
+    /** Selects random chromosomes in a given population,
+     * and then pushes those selected to the main population (which is emptied before hand)
+     * @param selectionPop a population to select from */
+    gfprivate.selectRandom = function(selectionPop) {
     // The number of chromosomes to randomly select should be the least of the two
     var numToSelect = selectionPop.length < gfprivate.maxPopulation ? selectionPop.length : gfprivate.maxPopulation;
     gfprivate.population = [];
@@ -161,11 +165,11 @@ var genev = function(CHROMO_STRUCTURE, options) {
     }
   };
 
-  /** The method to be used when extending gfprivate with any options,
-   * It just checks for any invalid option values that essentially break everything, and fallsback to
-   * some safe (probably default values, or not)
-   * etc. */
-  gfprivate.extend = function(options) {
+    /** The method to be used when extending gfprivate with any options,
+     * It just checks for any invalid option values that essentially break everything, and fallsback to
+     * some safe (probably default values, or not)
+     * etc. */
+    gfprivate.extend = function(options) {
     $.extend(gfprivate, options); // first we set whatever we were given
     // Then we check, and fix them if need be
     if (gfprivate.maxPopulation < 10) {
@@ -175,12 +179,12 @@ var genev = function(CHROMO_STRUCTURE, options) {
     }
   };
 
-  /** Crossover the entire population in gfprivate.population
- * This method has the efficiency class of O(n^2) but is usually run on the fittest
- * chromosomes selected (which are only 10 by default). Keep this in mind when changing the
- * default ```numToSelect``` option.
- */
-  gfprivate.crossPopulation = function() {
+    /** Crossover the entire population in gfprivate.population
+   * This method has the efficiency class of O(n^2) but is usually run on the fittest
+   * chromosomes selected (which are only 10 by default). Keep this in mind when changing the
+   * default ```numToSelect``` option.
+   */
+    gfprivate.crossPopulation = function() {
     var crossoverPopulation = [];
     // Crosses all n chromosomes with all other n-1 chromosomes
     for (var i = 0; i < gfprivate.population.length; i += 1) {
@@ -195,15 +199,15 @@ var genev = function(CHROMO_STRUCTURE, options) {
     gfprivate.selectRandom(crossoverPopulation); // randomly select chromosomes in the crossoverPopulation and place them in the population
   };
 
-  /** Mutates the entire population */
-  gfprivate.mutatePopulation = function() {
+    /** Mutates the entire population */
+    gfprivate.mutatePopulation = function() {
     for (var i = 0; i < gfprivate.population.length; i += 1) {
       gfprivate.population[i] = JSON.parse(JSON.stringify(gfprivate.getMutated(gfprivate.population[i]))); // HACK, TODO FIX
     }
   };
 
-  /** Initializes the population array with a random set of chromosomes. */
-  gfprivate.initRandomPop = function() {
+    /** Initializes the population array with a random set of chromosomes. */
+    gfprivate.initRandomPop = function() {
     /* CREATE RANDOM POPULATION */
     for (var i = 0; i < gfprivate.maxPopulation; i += 1) {
       // Create new random chromosome
@@ -213,9 +217,9 @@ var genev = function(CHROMO_STRUCTURE, options) {
     }
   };
 
-  /** Checks if the exit score has been reached
-   * @returns boolean */
-  gfprivate.exitScoreReached = function() {
+    /** Checks if the exit score has been reached
+     * @returns boolean */
+    gfprivate.exitScoreReached = function() {
     if (gfprivate.exitScore !== -1) {
       if (gfprivate.population[0].score >= gfprivate.exitScore) {
         return true;
@@ -224,29 +228,29 @@ var genev = function(CHROMO_STRUCTURE, options) {
     return false;
   };
 
-  /** Runs at the beginning of every generation loop. A.k.a. when the generation is born (and evaluated).
-   * This should be changed to fit the special needs of every user.
-   * If you want to print/log/view the data after every generation, you would do it here.
-   * @param population Array containing all chromosomes in the population
-   */
-  gfprivate.onNewGen = function(population) {
+    /** Runs at the beginning of every generation loop. A.k.a. when the generation is born (and evaluated).
+     * This should be changed to fit the special needs of every user.
+     * If you want to print/log/view the data after every generation, you would do it here.
+     * @param population Array containing all chromosomes in the population
+     */
+    gfprivate.onNewGen = function(population) {
     // default does nothing
     return;
   };
 
-  ///////////////////////////////////////////////////////////
-  //             START OF PUBLIC METHODS/API
-  ///////////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////
+    //             START OF PUBLIC METHODS/API
+    ///////////////////////////////////////////////////////////
 
-  /** Class public methods/properties */
-  var gfpublic = {};
+    /** Class public methods/properties */
+    var gfpublic = {};
 
-  /** Initializes the population with either user provided chromosomes or randomly generates them
-   * @param initpop (optional) User provided array of initial chromosomes
-   * @param validate (optional) Set true if you want genev to validate your array. It is optional as it could be an expensive process.
-   * @returns boolean If you provided ```validate``` as true, it will return false when initialization has failed because of invalid data.
-   */
-  gfpublic.initPopulation = function(initpop, validate) {
+    /** Initializes the population with either user provided chromosomes or randomly generates them
+     * @param initpop (optional) User provided array of initial chromosomes
+     * @param validate (optional) Set true if you want genev to validate your array. It is optional as it could be an expensive process.
+     * @returns boolean If you provided ```validate``` as true, it will return false when initialization has failed because of invalid data.
+     */
+    gfpublic.initPopulation = function(initpop, validate) {
     if (typeof initpop !== 'undefined') {
       if (typeof validate !== 'undefined' && validate === true) {
         // validate that all objects in input initpop contain correct properties (CHROMO_STRUCTURE)
@@ -273,12 +277,12 @@ var genev = function(CHROMO_STRUCTURE, options) {
     gfprivate.initRandomPop();
   };
 
-  /** Evolves the population
- * @param evolveOptions object that accepts options (optional)
- * @param fitfunc a fitness function (optional)
- * @returns void
- */
-  gfpublic.evolve = function(fitfunc, evolveOptions) {
+    /** Evolves the population
+   * @param evolveOptions object that accepts options (optional)
+   * @param fitfunc a fitness function (optional)
+   * @returns void
+   */
+    gfpublic.evolve = function(fitfunc, evolveOptions) {
     // Update options again.
     gfprivate.extend(evolveOptions);
 
@@ -341,31 +345,33 @@ var genev = function(CHROMO_STRUCTURE, options) {
     gfprivate.selectFittest();
   };
 
-  /** Resets all options to the defaults */
-  gfpublic.resetOptions = function() {
+    /** Resets all options to the defaults */
+    gfpublic.resetOptions = function() {
     gfprivate.extend(gfprivate.DEFAULT_OPTIONS);
   };
 
-  /** Returns the population currently in gfprivate.population
- * @returns array Array of chromosomes
- */
-  gfpublic.getPopulation = function() {
+    /** Returns the population currently in gfprivate.population
+   * @returns array Array of chromosomes
+   */
+    gfpublic.getPopulation = function() {
     return gfprivate.population;
   };
 
-  ///////////////////////////////////////////////////////////
-  //                INIT SETUP
-  ///////////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////
+    //                INIT SETUP
+    ///////////////////////////////////////////////////////////
 
-  /** Setting default options */
-  gfpublic.resetOptions();
+    /** Setting default options */
+    gfpublic.resetOptions();
 
-  /* Options merging
-  This also adds extra flexibility to users who want more control over
-  genev as it also allows them to replace private methods/properties. (so they're not completely private...)
-  TODO Decide if we want to keep it this way */
-  gfprivate.extend(options);
+    /* Options merging
+    This also adds extra flexibility to users who want more control over
+    genev as it also allows them to replace private methods/properties. (so they're not completely private...)
+    TODO Decide if we want to keep it this way */
+    gfprivate.extend(options);
 
-  // Return class public methods (a.k.a. make them available for use)
-  return gfpublic;
-};
+    // Return class public methods (a.k.a. make them available for use)
+    return gfpublic;
+  };
+
+}).call(this);
