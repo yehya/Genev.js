@@ -5,7 +5,7 @@
 (function() {
   var root = this;
   var prevGenev = root.genev;
-  
+
   var genev = function(CHROMO_STRUCTURE, options) {
 
     // Check for invalid parameter CHROMO_STRUCTURE
@@ -374,4 +374,9 @@
     return gfpublic;
   };
 
+  genev.noConflict = function() {
+    root.genev = prevGenev;
+    return genev;
+  };
+  
 }).call(this);
