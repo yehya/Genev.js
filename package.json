@@ -3,9 +3,7 @@
   "version": "0.1.0",
   "description": "Genetic Evolution Algorithm framework",
   "main": "src/Genev.js",
-  "dependencies": {
-    "jquery": "2.1.4"
-  },
+  "dependencies": {},
   "devDependencies": {},
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
