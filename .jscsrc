@@ -2,5 +2,6 @@
 	"preset": "google",
 	"fix": true,
     "maximumLineLength": 200,
-    "disallowMultipleVarDecl": false
+    "disallowMultipleVarDecl": false,
+    "requireSemicolons": true
 }
