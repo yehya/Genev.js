@@ -1,28 +1,50 @@
-/*global $, jQuery, i, j, ii*/
+/*global  jQuery, i, j, ii*/
 
 'use strict';
 
 (function() {
   var root = this;
-  
+
   // save previous data for 'genev'
   var prevGenev = root.genev;
 
   var genev = function(CHROMO_STRUCTURE, options) {
-    
-    // check for require
-    var requireExists = typeof require !== 'undefined';
-    
-    // check for underscore
-    var $ = root.$;
 
-    if (typeof $ === 'undefined') {
-      if (requireExists) {
-        $ = require('jquery');
-      } else {
-        throw new Error('genev requires jquery');
+    // Create our own extend function (based on jQuery) (c) jQuery
+    var extend = function() {
+      var options, name, src, copy, target = arguments[0] || {},
+          i = 1,
+          length = arguments.length;
+      // Handle case when target is a string or something
+      if (typeof target !== 'object') {
+        target = {};
       }
-    }
+      // if only one argument is passed, we return it back
+      if (i === length) {
+        return target;
+      }
+      for (; i < length; i++) {
+        // Only deal with non-null/undefined values
+        if ((options = arguments[i]) != null) {
+          // Extend the base object
+          for (name in options) {
+            src = target[name];
+            copy = options[name];
+            // Prevent never-ending loop
+            if (target === copy) {
+              continue;
+            }
+            // Recurse if we're merging plain objects or arrays
+            if (copy !== undefined) {
+              target[name] = copy;
+            }
+          }
+        }
+      }
+
+      // Return the modified object
+      return target;
+    };
 
     // Check for invalid parameter CHROMO_STRUCTURE
     if ((typeof CHROMO_STRUCTURE === 'undefined') || (typeof CHROMO_STRUCTURE !== 'object')) {
@@ -93,7 +115,7 @@
 
     /** Crossover Xgene and Ygene and return crossover */
     gfprivate.crossover = function(Xchromo, Ychromo) {
-    var crossedChromo = $.extend({},gfprivate.chromosome), // create new chromosome
+    var crossedChromo = extend({},gfprivate.chromosome), // create new chromosome
         property; // holds the looped property
     for (property in Xchromo.genes) { // loop through all weights
       if (Xchromo.genes.hasOwnProperty(property)) {
@@ -103,12 +125,12 @@
     }
     // increase generation
     crossedChromo.generation = Xchromo.generation + 1;
-    return $.extend({},crossedChromo);
+    return extend({},crossedChromo);
   };
 
     /** Mutate individual chromosomes */
     gfprivate.getMutated = function(chromo) {
-    var mutatedChromo = $.extend({},chromo),
+    var mutatedChromo = extend({},chromo),
         property;
     for (property in chromo.genes) {
       if (chromo.genes.hasOwnProperty(property)) {
@@ -120,7 +142,7 @@
 
     /** Generates a new random chromosome using the structure provided */
     gfprivate.newChromosome = function() {
-    var newChromosome = $.extend({},gfprivate.chromosome),
+    var newChromosome = extend({},gfprivate.chromosome),
         property;
     newChromosome.genes = gfprivate.CHROMO_STRUCTURE.genes;
     for (property in newChromosome.genes) {
@@ -145,7 +167,7 @@
     gfprivate.evaluate = function() {
     for (var i = 0; i < gfprivate.population.length; i += 1) {
       var score = {score: gfprivate.fitnessFunction(gfprivate.population[i].genes)};
-      $.extend(gfprivate.population[i],score);
+      extend(gfprivate.population[i],score);
     }
     gfprivate.sortPopulation();
   };
@@ -172,7 +194,7 @@
     // TODO Avoid re-adding the same randomly selected chromosome
     for (var i = 0; i < numToSelect; i += 1) {
       var selector = Math.floor(Math.random() * selectionPop.length); // Random number from 0 to selectionPop.length
-      gfprivate.population.push(JSON.parse(JSON.stringify($.extend({},selectionPop[selector])))); // add the selected value to the population, TODO Hack solution, replace
+      gfprivate.population.push(JSON.parse(JSON.stringify(extend({},selectionPop[selector])))); // add the selected value to the population, TODO Hack solution, replace
     }
     // We then fill the rest of it with random chromosomes,
     var restNum = gfprivate.maxPopulation - selectionPop.length;
@@ -186,7 +208,7 @@
      * some safe (probably default values, or not)
      * etc. */
     gfprivate.extend = function(options) {
-    $.extend(gfprivate, options); // first we set whatever we were given
+    extend(gfprivate, options); // first we set whatever we were given
     // Then we check, and fix them if need be
     if (gfprivate.maxPopulation < 10) {
       gfprivate.maxPopulation = 10;
@@ -206,7 +228,7 @@
     for (var i = 0; i < gfprivate.population.length; i += 1) {
       for (var ii = 1; ii < gfprivate.population.length - i; ii += 1) {
         // 50/50 chance for selecting genes
-        var crossoverChromosome = $.extend({},gfprivate.crossover(gfprivate.population[i], gfprivate.population[ii]));
+        var crossoverChromosome = extend({},gfprivate.crossover(gfprivate.population[i], gfprivate.population[ii]));
         crossoverPopulation.push(JSON.parse(JSON.stringify(crossoverChromosome))); // HACK SOLUTION FOR REFERENCE PROBLEM, TODO REPLACE THIS
       }
       gfprivate.population[i].generation += 1; // increase the generation
@@ -227,7 +249,7 @@
     /* CREATE RANDOM POPULATION */
     for (var i = 0; i < gfprivate.maxPopulation; i += 1) {
       // Create new random chromosome
-      var newChromosome = $.extend(true, {}, gfprivate.newChromosome());
+      var newChromosome = extend(true, {}, gfprivate.newChromosome());
       // Add it to the population
       gfprivate.population.push(newChromosome);
     }
