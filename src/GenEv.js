@@ -4,12 +4,16 @@
 
 (function() {
   var root = this;
+  
+  // save previous data for 'genev'
   var prevGenev = root.genev;
 
   var genev = function(CHROMO_STRUCTURE, options) {
-
+    
+    // check for require
     var requireExists = typeof require !== 'undefined';
-
+    
+    // check for underscore
     var _ = root._;
 
     if (typeof _ === 'undefined') {
