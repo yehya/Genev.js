@@ -14,13 +14,13 @@
     var requireExists = typeof require !== 'undefined';
     
     // check for underscore
-    var _ = root._;
+    var $ = root.$;
 
-    if (typeof _ === 'undefined') {
+    if (typeof $ === 'undefined') {
       if (requireExists) {
-        _ = require('underscore');
+        $ = require('jquery');
       } else {
-        throw new Error('genev requires underscore.js');
+        throw new Error('genev requires jquery');
       }
     }
 
