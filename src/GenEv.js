@@ -45,7 +45,6 @@
           }
         }
       }
-
       return original;
     };
 
@@ -73,13 +72,13 @@
 
     /** Default options */
     gfprivate.DEFAULT_OPTIONS = {
-    maxPopulation: 45,
-    maxGenerations: 1000,
-    mutationProb: 0.05,
-    numToSelect: 10,
-    elitism: true,
-    exitScore: -1 // -1 always runs until maxGenerations is reached
-  };
+      maxPopulation: 45,
+      maxGenerations: 1000,
+      mutationProb: 0.05,
+      numToSelect: 10,
+      elitism: true,
+      exitScore: -1 // -1 always runs until maxGenerations is reached
+    };
 
     /** Maximum population size */
     gfprivate.maxPopulation = 45; // default to 45
@@ -101,124 +100,124 @@
 
     /** Chromosome atrributes */
     gfprivate.chromosome = {
-    genes: {},
-    score: 0,
-    generation: 0
-  };
+      genes: {},
+      score: 0,
+      generation: 0
+    };
 
     /** Generation Population Array */
     gfprivate.population = [];
 
     /** Sort (descending) chromosomes based on score */
     gfprivate.sortPopulation = function() {
-    gfprivate.population.sort(function(a, b) {
-      return b.score - a.score; // descending score order
-    });
-  };
+      gfprivate.population.sort(function(a, b) {
+        return b.score - a.score; // descending score order
+      });
+    };
 
     /** Crossover Xgene and Ygene and return crossover */
     gfprivate.crossover = function(Xchromo, Ychromo) {
-    var crossedChromo = extend({},gfprivate.chromosome), // create new chromosome
-        property; // holds the looped property
-    for (property in Xchromo.genes) { // loop through all weights
-      if (Xchromo.genes.hasOwnProperty(property)) {
-        // 50/50 chance of picking a gene from either
-        crossedChromo.genes[property] = ((Math.random() > 0.5) ? Xchromo.genes[property] : Ychromo.genes[property]);
+      var crossedChromo = extend({},gfprivate.chromosome), // create new chromosome
+          property; // holds the looped property
+      for (property in Xchromo.genes) { // loop through all weights
+        if (Xchromo.genes.hasOwnProperty(property)) {
+          // 50/50 chance of picking a gene from either
+          crossedChromo.genes[property] = ((Math.random() > 0.5) ? Xchromo.genes[property] : Ychromo.genes[property]);
+        }
       }
-    }
-    // increase generation
-    crossedChromo.generation = Xchromo.generation + 1;
-    return extend({},crossedChromo);
-  };
+      // increase generation
+      crossedChromo.generation = Xchromo.generation + 1;
+      return extend({},crossedChromo);
+    };
 
     /** Mutate individual chromosomes */
     gfprivate.getMutated = function(chromo) {
-    var mutatedChromo = extend({},chromo),
-        property;
-    for (property in chromo.genes) {
-      if (chromo.genes.hasOwnProperty(property)) {
-        mutatedChromo.genes[property] = ((Math.random() < gfprivate.mutationProb) ? Math.random() : chromo.genes[property]);
+      var mutatedChromo = extend({},chromo),
+          property;
+      for (property in chromo.genes) {
+        if (chromo.genes.hasOwnProperty(property)) {
+          mutatedChromo.genes[property] = ((Math.random() < gfprivate.mutationProb) ? Math.random() : chromo.genes[property]);
+        }
       }
-    }
-    return mutatedChromo;
-  };
+      return mutatedChromo;
+    };
 
     /** Generates a new random chromosome using the structure provided */
     gfprivate.newChromosome = function() {
-    var newChromosome = extend({},gfprivate.chromosome),
-        property;
-    newChromosome.genes = gfprivate.CHROMO_STRUCTURE.genes;
-    for (property in newChromosome.genes) {
-      if (newChromosome.genes.hasOwnProperty(property)) {
-        newChromosome.genes[property] = Math.random();
+      var newChromosome = extend({},gfprivate.chromosome),
+          property;
+      newChromosome.genes = gfprivate.CHROMO_STRUCTURE.genes;
+      for (property in newChromosome.genes) {
+        if (newChromosome.genes.hasOwnProperty(property)) {
+          newChromosome.genes[property] = Math.random();
+        }
       }
-    }
-    return newChromosome;
-  };
+      return newChromosome;
+    };
 
     /** Default fitness function (should be replaced with custom function by framework user) */
     gfprivate.fitnessFunction = function(genes) {
-    var property;
-    for (property in genes) {
-      if (genes.hasOwnProperty(property)) {
-        return genes[property];
+      var property;
+      for (property in genes) {
+        if (genes.hasOwnProperty(property)) {
+          return genes[property];
+        }
       }
-    }
-  };
+    };
 
     /** Evaluate scores of all chromosomes and sets their score property */
     gfprivate.evaluate = function() {
-    for (var i = 0; i < gfprivate.population.length; i += 1) {
-      var score = {score: gfprivate.fitnessFunction(gfprivate.population[i].genes)};
-      extend(gfprivate.population[i],score);
-    }
-    gfprivate.sortPopulation();
-  };
+      for (var i = 0; i < gfprivate.population.length; i += 1) {
+        var score = {score: gfprivate.fitnessFunction(gfprivate.population[i].genes)};
+        extend(gfprivate.population[i],score);
+      }
+      gfprivate.sortPopulation();
+    };
 
     /** Selects the most fit numToSelect in the population */
     gfprivate.selectFittest = function() {
-    if (gfprivate.numToSelect > 0) {
-      gfprivate.population.splice(gfprivate.numToSelect);
-    } else {
-      gfprivate.population.splice(1); // If numToSelect is 0 for somereason, we select 1
-    }
-    // Clone the elite and save it
-    gfprivate.elite = JSON.parse(JSON.stringify(gfprivate.population[0]));
-    gfprivate.elite.generation += 1;
-  };
+      if (gfprivate.numToSelect > 0) {
+        gfprivate.population.splice(gfprivate.numToSelect);
+      } else {
+        gfprivate.population.splice(1); // If numToSelect is 0 for somereason, we select 1
+      }
+      // Clone the elite and save it
+      gfprivate.elite = JSON.parse(JSON.stringify(gfprivate.population[0]));
+      gfprivate.elite.generation += 1;
+    };
 
     /** Selects random chromosomes in a given population,
      * and then pushes those selected to the main population (which is emptied before hand)
      * @param selectionPop a population to select from */
     gfprivate.selectRandom = function(selectionPop) {
-    // The number of chromosomes to randomly select should be the least of the two
-    var numToSelect = selectionPop.length < gfprivate.maxPopulation ? selectionPop.length : gfprivate.maxPopulation;
-    gfprivate.population = [];
-    // TODO Avoid re-adding the same randomly selected chromosome
-    for (var i = 0; i < numToSelect; i += 1) {
-      var selector = Math.floor(Math.random() * selectionPop.length); // Random number from 0 to selectionPop.length
-      gfprivate.population.push(JSON.parse(JSON.stringify(extend({},selectionPop[selector])))); // add the selected value to the population, TODO Hack solution, replace
-    }
-    // We then fill the rest of it with random chromosomes,
-    var restNum = gfprivate.maxPopulation - selectionPop.length;
-    for (var i = 0; i < restNum; i += 1) {
-      gfprivate.population.push(JSON.parse(JSON.stringify(gfprivate.newChromosome())));
-    }
-  };
+      // The number of chromosomes to randomly select should be the least of the two
+      var numToSelect = selectionPop.length < gfprivate.maxPopulation ? selectionPop.length : gfprivate.maxPopulation;
+      gfprivate.population = [];
+      // TODO Avoid re-adding the same randomly selected chromosome
+      for (var i = 0; i < numToSelect; i += 1) {
+        var selector = Math.floor(Math.random() * selectionPop.length); // Random number from 0 to selectionPop.length
+        gfprivate.population.push(JSON.parse(JSON.stringify(extend({},selectionPop[selector])))); // add the selected value to the population, TODO Hack solution, replace
+      }
+      // We then fill the rest of it with random chromosomes,
+      var restNum = gfprivate.maxPopulation - selectionPop.length;
+      for (var i = 0; i < restNum; i += 1) {
+        gfprivate.population.push(JSON.parse(JSON.stringify(gfprivate.newChromosome())));
+      }
+    };
 
     /** The method to be used when extending gfprivate with any options,
      * It just checks for any invalid option values that essentially break everything, and fallsback to
      * some safe (probably default values, or not)
      * etc. */
     gfprivate.extend = function(options) {
-    extend(gfprivate, options); // first we set whatever we were given
-    // Then we check, and fix them if need be
-    if (gfprivate.maxPopulation < 10) {
-      gfprivate.maxPopulation = 10;
-    } else if (gfprivate.numToSelect < 1) {
-      gfprivate.numToSelect = 1;
-    }
-  };
+      extend(gfprivate, options); // first we set whatever we were given
+      // Then we check, and fix them if need be
+      if (gfprivate.maxPopulation < 10) {
+        gfprivate.maxPopulation = 10;
+      } else if (gfprivate.numToSelect < 1) {
+        gfprivate.numToSelect = 1;
+      }
+    };
 
     /** Crossover the entire population in gfprivate.population
    * This method has the efficiency class of O(n^2) but is usually run on the fittest
@@ -226,48 +225,48 @@
    * default ```numToSelect``` option.
    */
     gfprivate.crossPopulation = function() {
-    var crossoverPopulation = [];
-    // Crosses all n chromosomes with all other n-1 chromosomes
-    for (var i = 0; i < gfprivate.population.length; i += 1) {
-      for (var ii = 1; ii < gfprivate.population.length - i; ii += 1) {
-        // 50/50 chance for selecting genes
-        var crossoverChromosome = extend({},gfprivate.crossover(gfprivate.population[i], gfprivate.population[ii]));
-        crossoverPopulation.push(JSON.parse(JSON.stringify(crossoverChromosome))); // HACK SOLUTION FOR REFERENCE PROBLEM, TODO REPLACE THIS
+      var crossoverPopulation = [];
+      // Crosses all n chromosomes with all other n-1 chromosomes
+      for (var i = 0; i < gfprivate.population.length; i += 1) {
+        for (var ii = 1; ii < gfprivate.population.length - i; ii += 1) {
+          // 50/50 chance for selecting genes
+          var crossoverChromosome = extend({},gfprivate.crossover(gfprivate.population[i], gfprivate.population[ii]));
+          crossoverPopulation.push(JSON.parse(JSON.stringify(crossoverChromosome))); // HACK SOLUTION FOR REFERENCE PROBLEM, TODO REPLACE THIS
+        }
+        gfprivate.population[i].generation += 1; // increase the generation
+        crossoverPopulation.push(JSON.parse(JSON.stringify(gfprivate.population[i]))); // Re-add all chromosomes used in crossing
       }
-      gfprivate.population[i].generation += 1; // increase the generation
-      crossoverPopulation.push(JSON.parse(JSON.stringify(gfprivate.population[i]))); // Re-add all chromosomes used in crossing
-    }
-    gfprivate.selectRandom(crossoverPopulation); // randomly select chromosomes in the crossoverPopulation and place them in the population
-  };
+      gfprivate.selectRandom(crossoverPopulation); // randomly select chromosomes in the crossoverPopulation and place them in the population
+    };
 
     /** Mutates the entire population */
     gfprivate.mutatePopulation = function() {
-    for (var i = 0; i < gfprivate.population.length; i += 1) {
-      gfprivate.population[i] = JSON.parse(JSON.stringify(gfprivate.getMutated(gfprivate.population[i]))); // HACK, TODO FIX
-    }
-  };
+      for (var i = 0; i < gfprivate.population.length; i += 1) {
+        gfprivate.population[i] = JSON.parse(JSON.stringify(gfprivate.getMutated(gfprivate.population[i]))); // HACK, TODO FIX
+      }
+    };
 
     /** Initializes the population array with a random set of chromosomes. */
     gfprivate.initRandomPop = function() {
-    /* CREATE RANDOM POPULATION */
-    for (var i = 0; i < gfprivate.maxPopulation; i += 1) {
-      // Create new random chromosome
-      var newChromosome = extend(true, {}, gfprivate.newChromosome());
-      // Add it to the population
-      gfprivate.population.push(newChromosome);
-    }
-  };
+      /* CREATE RANDOM POPULATION */
+      for (var i = 0; i < gfprivate.maxPopulation; i += 1) {
+        // Create new random chromosome
+        var newChromosome = extend(true, {}, gfprivate.newChromosome());
+        // Add it to the population
+        gfprivate.population.push(newChromosome);
+      }
+    };
 
     /** Checks if the exit score has been reached
      * @returns boolean */
     gfprivate.exitScoreReached = function() {
-    if (gfprivate.exitScore !== -1) {
-      if (gfprivate.population[0].score >= gfprivate.exitScore) {
-        return true;
+      if (gfprivate.exitScore !== -1) {
+        if (gfprivate.population[0].score >= gfprivate.exitScore) {
+          return true;
+        }
       }
-    }
-    return false;
-  };
+      return false;
+    };
 
     /** Runs at the beginning of every generation loop. A.k.a. when the generation is born (and evaluated).
      * This should be changed to fit the special needs of every user.
@@ -275,9 +274,9 @@
      * @param population Array containing all chromosomes in the population
      */
     gfprivate.onNewGen = function(population) {
-    // default does nothing
-    return;
-  };
+      // default does nothing
+      return;
+    };
 
     ///////////////////////////////////////////////////////////
     //             START OF PUBLIC METHODS/API
@@ -292,31 +291,31 @@
      * @returns boolean If you provided ```validate``` as true, it will return false when initialization has failed because of invalid data.
      */
     gfpublic.initPopulation = function(initpop, validate) {
-    if (typeof initpop !== 'undefined') {
-      if (typeof validate !== 'undefined' && validate === true) {
-        // validate that all objects in input initpop contain correct properties (CHROMO_STRUCTURE)
-        for (var i = 0; i < initpop; i += 1) {
-          var property;
-          if (typeof initpop[i].genes === 'undefined') {
-            // chromosomes not built properly, they need to have a genes properties
-            // TODO need some kind of error handler
-            return;
-          }
-          for (property in gfprivate.CHROMO_STRUCTURE) {
-            if (typeof initpop[i].genes[property] === 'undefined') {
-              // Missing property discovered one of initpop's chromosomes
+      if (typeof initpop !== 'undefined') {
+        if (typeof validate !== 'undefined' && validate === true) {
+          // validate that all objects in input initpop contain correct properties (CHROMO_STRUCTURE)
+          for (var i = 0; i < initpop; i += 1) {
+            var property;
+            if (typeof initpop[i].genes === 'undefined') {
+              // chromosomes not built properly, they need to have a genes properties
+              // TODO need some kind of error handler
               return;
+            }
+            for (property in gfprivate.CHROMO_STRUCTURE) {
+              if (typeof initpop[i].genes[property] === 'undefined') {
+                // Missing property discovered one of initpop's chromosomes
+                return;
+              }
             }
           }
         }
+        /* Initialize with provided population */
+        gfprivate.population = [];
+        gfprivate.population.push(initpop);
       }
-      /* Initialize with provided population */
-      gfprivate.population = [];
-      gfprivate.population.push(initpop);
-    }
-    /* Init random if one is not provided */
-    gfprivate.initRandomPop();
-  };
+      /* Init random if one is not provided */
+      gfprivate.initRandomPop();
+    };
 
     /** Evolves the population
    * @param evolveOptions object that accepts options (optional)
@@ -324,79 +323,79 @@
    * @returns void
    */
     gfpublic.evolve = function(fitfunc, evolveOptions) {
-    // Update options again.
-    gfprivate.extend(evolveOptions);
+      // Update options again.
+      gfprivate.extend(evolveOptions);
 
-    // The generation counter
-    var generationCount = gfprivate.maxGenerations;
+      // The generation counter
+      var generationCount = gfprivate.maxGenerations;
 
-    // Set the fitness function if it was passed in
-    if (typeof fitfunc === 'function') {
-      gfprivate.fitnessFunction = fitfunc;
-    }
-
-    // Abort
-    // If the population is not initialized
-    if (gfprivate.population.length == 0) {
-      // console.error("No population initialized. Hint: Use .initPopulation before .evolve");
-      return;
-    }
-
-    // Loops for each generation
-    while (generationCount--) {
-      /* START EVOLUTION */
-
-      /* EVALUATION PHASE */
-
-      gfprivate.evaluate(); // Test all chromosomes and score them
-
-      /* AFTER EVALUATION CALLBACK */
-
-      if (typeof gfprivate.onNewGen === 'function') {
-        gfprivate.onNewGen(gfprivate.population); // run default, or custom function if specified in the options
+      // Set the fitness function if it was passed in
+      if (typeof fitfunc === 'function') {
+        gfprivate.fitnessFunction = fitfunc;
       }
 
-      /* SELECTION PHASE */
-
-      gfprivate.selectFittest(); // Select most fit chromosomes in terms of score attribute
-
-      /* BREAK CONDITION/SCORE CHECK */
-
-      if (gfprivate.exitScoreReached()) {
-        break;
+      // Abort
+      // If the population is not initialized
+      if (gfprivate.population.length == 0) {
+        // console.error("No population initialized. Hint: Use .initPopulation before .evolve");
+        return;
       }
 
-      /* CROSSOVER PHASE */
+      // Loops for each generation
+      while (generationCount--) {
+        /* START EVOLUTION */
 
-      gfprivate.crossPopulation();
+        /* EVALUATION PHASE */
 
-      /* MUTATION PHASE */
+        gfprivate.evaluate(); // Test all chromosomes and score them
 
-      gfprivate.mutatePopulation();
+        /* AFTER EVALUATION CALLBACK */
 
-      /* ELITISM PHASE */
+        if (typeof gfprivate.onNewGen === 'function') {
+          gfprivate.onNewGen(gfprivate.population); // run default, or custom function if specified in the options
+        }
 
-      gfprivate.population.push(gfprivate.elite);
+        /* SELECTION PHASE */
 
-      /* REPEAT UNTIL LAST GENERATION */
-    }
+        gfprivate.selectFittest(); // Select most fit chromosomes in terms of score attribute
 
-    /* END EVOLUTION */
-    gfprivate.evaluate();
-    gfprivate.selectFittest();
-  };
+        /* BREAK CONDITION/SCORE CHECK */
+
+        if (gfprivate.exitScoreReached()) {
+          break;
+        }
+
+        /* CROSSOVER PHASE */
+
+        gfprivate.crossPopulation();
+
+        /* MUTATION PHASE */
+
+        gfprivate.mutatePopulation();
+
+        /* ELITISM PHASE */
+
+        gfprivate.population.push(gfprivate.elite);
+
+        /* REPEAT UNTIL LAST GENERATION */
+      }
+
+      /* END EVOLUTION */
+      gfprivate.evaluate();
+      gfprivate.selectFittest();
+    };
 
     /** Resets all options to the defaults */
     gfpublic.resetOptions = function() {
-    gfprivate.extend(gfprivate.DEFAULT_OPTIONS);
-  };
+      gfprivate.extend(gfprivate.DEFAULT_OPTIONS);
+    };
 
     /** Returns the population currently in gfprivate.population
    * @returns array Array of chromosomes
    */
     gfpublic.getPopulation = function() {
-    return gfprivate.population;
-  };
+      return gfprivate.population;
+    };
 
     ///////////////////////////////////////////////////////////
     //                INIT SETUP
