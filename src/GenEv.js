@@ -10,40 +10,43 @@
 
   var genev = function(CHROMO_STRUCTURE, options) {
 
-    // Create our own extend function (based on jQuery) (c) jQuery
+    // Create our own extend function
     var extend = function() {
-      var options, name, src, copy, target = arguments[0] || {},
-          i = 1,
-          length = arguments.length;
-      // Handle case when target is a string or something
-      if (typeof target !== 'object') {
-        target = {};
+      var opt,
+      prop,
+      source,
+      newcopy,
+      original = arguments[0] || {},
+      i = 1,
+      length = arguments.length;
+      // Handle case when original is a string or something
+      if (typeof original !== 'object') {
+        original = {};
       }
       // if only one argument is passed, we return it back
       if (i === length) {
-        return target;
+        return original;
       }
       for (; i < length; i++) {
         // Only deal with non-null/undefined values
-        if ((options = arguments[i]) != null) {
+        if ((opt = arguments[i]) != null) {
           // Extend the base object
-          for (name in options) {
-            src = target[name];
-            copy = options[name];
+          for (prop in opt) {
+            source = original[prop];
+            newcopy = opt[prop];
             // Prevent never-ending loop
-            if (target === copy) {
+            if (original === newcopy) {
               continue;
             }
             // Recurse if we're merging plain objects or arrays
-            if (copy !== undefined) {
-              target[name] = copy;
+            if (newcopy !== undefined) {
+              original[prop] = newcopy;
             }
           }
         }
       }
 
-      // Return the modified object
-      return target;
+      return original;
     };
 
     // Check for invalid parameter CHROMO_STRUCTURE
