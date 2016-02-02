@@ -10,7 +10,7 @@
 
   var genev = function(CHROMO_STRUCTURE, options) {
     
-    /* Makes me gag, but this'll be my solution for now */
+    // Makes me gag, but this'll be my solution for now 
     var clone = function(obj) {
         return JSON.parse(JSON.stringify(obj));
     }
