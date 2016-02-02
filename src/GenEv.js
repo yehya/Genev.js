@@ -9,6 +9,11 @@
   var prevGenev = root.genev;
 
   var genev = function(CHROMO_STRUCTURE, options) {
+    
+    /* Makes me gag, but this'll be my solution for now */
+    var clone = function(obj) {
+        return JSON.parse(JSON.stringify(obj));
+    }
 
     // Create our own extend function
     var extend = function() {
@@ -56,7 +61,7 @@
 
     // Accept both genes object or chromo->genes object
     if ((typeof CHROMO_STRUCTURE.genes === 'undefined')) {
-      var genes = JSON.parse(JSON.stringify(CHROMO_STRUCTURE));
+      var genes = clone(CHROMO_STRUCTURE);
       CHROMO_STRUCTURE = {genes: genes};
     }
 
@@ -182,7 +187,7 @@
         gfprivate.population.splice(1); // If numToSelect is 0 for somereason, we select 1
       }
       // Clone the elite and save it
-      gfprivate.elite = JSON.parse(JSON.stringify(gfprivate.population[0]));
+      gfprivate.elite = clone(gfprivate.population[0]);
       gfprivate.elite.generation += 1;
     };
 
@@ -196,12 +201,12 @@
       // TODO Avoid re-adding the same randomly selected chromosome
       for (var i = 0; i < numToSelect; i += 1) {
         var selector = Math.floor(Math.random() * selectionPop.length); // Random number from 0 to selectionPop.length
-        gfprivate.population.push(JSON.parse(JSON.stringify(extend({},selectionPop[selector])))); // add the selected value to the population, TODO Hack solution, replace
+        gfprivate.population.push(clone(extend({},selectionPop[selector]))); // add the selected value to the population, TODO Hack solution, replace
       }
       // We then fill the rest of it with random chromosomes,
       var restNum = gfprivate.maxPopulation - selectionPop.length;
       for (var i = 0; i < restNum; i += 1) {
-        gfprivate.population.push(JSON.parse(JSON.stringify(gfprivate.newChromosome())));
+        gfprivate.population.push(clone(gfprivate.newChromosome()));
       }
     };
 
@@ -231,10 +236,10 @@
         for (var ii = 1; ii < gfprivate.population.length - i; ii += 1) {
           // 50/50 chance for selecting genes
           var crossoverChromosome = extend({},gfprivate.crossover(gfprivate.population[i], gfprivate.population[ii]));
-          crossoverPopulation.push(JSON.parse(JSON.stringify(crossoverChromosome))); // HACK SOLUTION FOR REFERENCE PROBLEM, TODO REPLACE THIS
+          crossoverPopulation.push(clone(crossoverChromosome)); // HACK SOLUTION FOR REFERENCE PROBLEM, TODO REPLACE THIS
         }
         gfprivate.population[i].generation += 1; // increase the generation
-        crossoverPopulation.push(JSON.parse(JSON.stringify(gfprivate.population[i]))); // Re-add all chromosomes used in crossing
+        crossoverPopulation.push(clone(gfprivate.population[i])); // Re-add all chromosomes used in crossing
       }
       gfprivate.selectRandom(crossoverPopulation); // randomly select chromosomes in the crossoverPopulation and place them in the population
     };
@@ -242,7 +247,7 @@
     /** Mutates the entire population */
     gfprivate.mutatePopulation = function() {
       for (var i = 0; i < gfprivate.population.length; i += 1) {
-        gfprivate.population[i] = JSON.parse(JSON.stringify(gfprivate.getMutated(gfprivate.population[i]))); // HACK, TODO FIX
+        gfprivate.population[i] = clone(gfprivate.getMutated(gfprivate.population[i])); // HACK, TODO FIX
       }
     };
 
