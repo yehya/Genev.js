@@ -17,10 +17,7 @@
 
     // Create our own extend function
     var extend = function() {
-      var opt,
-      prop,
-      source,
-      newcopy,
+      var objct, property, src, ncopy,
       original = arguments[0] || {},
       i = 1,
       length = arguments.length;
@@ -34,18 +31,18 @@
       }
       for (; i < length; i++) {
         // Only deal with non-null/undefined values
-        if ((opt = arguments[i]) != null) {
+        if ((objct = arguments[i]) != null) {
           // Extend the base object
-          for (prop in opt) {
-            source = original[prop];
-            newcopy = opt[prop];
+          for (property in objct) {
+            src = original[property];
+            ncopy = objct[property];
             // Prevent never-ending loop
-            if (original === newcopy) {
+            if (original === ncopy) {
               continue;
             }
             // Recurse if we're merging plain objects or arrays
-            if (newcopy !== undefined) {
-              original[prop] = newcopy;
+            if (ncopy !== undefined) {
+              original[property] = ncopy;
             }
           }
         }
