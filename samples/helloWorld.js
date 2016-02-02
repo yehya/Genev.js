@@ -1,4 +1,4 @@
-/* global, GF */
+/* global, genev */
 
 /////////////////////////////////////
 //// Finding Hello, World!
@@ -7,6 +7,8 @@
 /*
  * Here we will be using Genev to find the string "Hello, World!"
  */
+
+var genev = require('genev');
 
 var helloWorld = 'Hello, World!';
 
