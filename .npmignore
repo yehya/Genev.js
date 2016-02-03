@@ -32,9 +32,3 @@ node_modules
 
 # Optional REPL history
 .node_repl_history
-
-
-src/nodetest.js
-test.js 
-test.html
-todo.txt
