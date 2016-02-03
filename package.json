@@ -6,10 +6,12 @@
   "dependencies": {},
   "devDependencies": {
     "chai": "3.5.0",
+    "ghooks": "1.0.3",
     "mocha": "2.4.5"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "mocha ./test/tests.js -w",
+    "test:single": "mocha ./test/tests.js"
   },
   "repository": {
     "type": "git",
@@ -28,5 +30,10 @@
     "url": "https://github.com/awadYehya/Genev.js/issues"
   },
   "homepage": "https://github.com/awadYehya/Genev.js#readme",
-  "tonicExampleFilename": "samples/helloWorld.js"
+  "tonicExampleFilename": "samples/helloWorld.js",
+  "config": {
+    "ghooks": {
+      "pre-commit": "npm run test:single"
+    }
+  }
 }
