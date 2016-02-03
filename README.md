@@ -1,3 +1,5 @@
+[![npm version](https://badge.fury.io/js/genev.svg)](https://badge.fury.io/js/genev)
+
 # Genev.js
 Genetic Evolution Algorithm framework
 
