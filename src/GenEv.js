@@ -50,9 +50,11 @@
       return original;
     };
 
+    /* PRE-CONDITIONS */
+
     // Check for invalid parameter CHROMO_STRUCTURE
-    if ((typeof CHROMO_STRUCTURE === 'undefined') || (typeof CHROMO_STRUCTURE !== 'object')) {
-      // console.error("Invalid parameter passed to GF. You need to pass a chromosome structure.");
+    if ((typeof CHROMO_STRUCTURE === 'undefined') || (typeof CHROMO_STRUCTURE !== 'object')
+        || CHROMO_STRUCTURE === null) {
       return null;
     }
 
@@ -60,6 +62,11 @@
     if ((typeof CHROMO_STRUCTURE.genes === 'undefined')) {
       var genes = clone(CHROMO_STRUCTURE);
       CHROMO_STRUCTURE = {genes: genes};
+    }
+
+    // Must have at least 1 gene
+    if (Object.keys(CHROMO_STRUCTURE.genes).length < 1) {
+       return null;
     }
 
     ///////////////////////////////////////////////////////////
