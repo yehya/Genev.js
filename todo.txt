@@ -1,2 +1,0 @@
-(A) Complete first working version
-Run all fitness tests asynchronously
