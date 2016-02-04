@@ -4,6 +4,8 @@
 //// Finding numbers that sum to X
 /////////////////////////////////////
 
+var genev = require('genev');
+
 /*
  * Here we will be using Genev to find combinations
  * of two numbers that have a sum of a number X.

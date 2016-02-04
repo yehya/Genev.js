@@ -4,6 +4,8 @@
  * Conceptual sample of how to use Genev
  */
 
+var genev = require('genev');
+
 /**
  * First we create our chromosome that will be used as
  * the structure for chromosomes Genev will work with. 

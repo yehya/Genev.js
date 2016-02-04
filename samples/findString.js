@@ -4,6 +4,8 @@
 //// 	Finding a String
 /////////////////////////////////////
 
+var genev = require('genev');
+
 /*
  * Here we will be using Genev to find the string contained in ourString"
  * The code here is just a variation of the helloWorld.js code
