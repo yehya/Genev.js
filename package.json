@@ -1,6 +1,6 @@
 {
   "name": "genev",
-  "version": "0.1.6",
+  "version": "0.1.7",
   "description": "Genetic Evolution Algorithm framework",
   "main": "src/genev.js",
   "dependencies": {},
