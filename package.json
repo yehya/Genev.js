@@ -7,11 +7,13 @@
   "devDependencies": {
     "chai": "3.5.0",
     "ghooks": "1.0.3",
-    "mocha": "2.4.5"
+    "mocha": "2.4.5",
+    "uglify-js": "^2.6.1"
   },
   "scripts": {
     "test": "mocha ./test/tests.js -w",
-    "test:single": "mocha ./test/tests.js"
+    "test:single": "mocha ./test/tests.js",
+    "build": "uglifyjs src/genev.js -o src/genev.min.js --source-map src/genev.min.js.map"
   },
   "repository": {
     "type": "git",
