@@ -1,13 +1,13 @@
 
 #Getting started with Genev.js
  
-```
+```javascript
 var genev = require('genev');
 ```
 
 ###Step 1: Create a chromosome structure
 
-```
+```javascript
 var chromosome = {
     genes: {
         gene1: null,
@@ -20,7 +20,7 @@ var chromosome = {
 
 The following is also equivalent/acceptable
 
-```
+```javascript
 var genes = {
     gene1: null,
     gene2: null,
@@ -34,7 +34,7 @@ var genes = {
 This function must accept a genes object as its first argument
 where then you must define an algorithm to evaluate the fitness of those genes
  
-```
+```javascript
 var fitnessFunction = function (genes) {
     var score = someCalculatedScore;
     // Do something with genes.gene1 and gene2 etc.
@@ -44,19 +44,19 @@ var fitnessFunction = function (genes) {
 
 ###Step 3: Initialize a new Genev instance.
  
-```
+```javascript
 var gen = new genev(chromosome);
 ```
 
 ###Step 3: Initialize population
  
- ```
+ ```javascript
 gen.initPopulation();
 ```
 
 ###Step 4: Evolve
  
- ```
+ ```javascript
 myGF.evolve(fitfunc);
 ```
 
