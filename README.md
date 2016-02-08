@@ -6,11 +6,6 @@ Genetic Evolution Algorithm framework
 ##What is Genev?
 Genev is a framework that lets you easily use the genetic algorithm search heuristic to find solutions to optimization or search problems.
 
-Todo:
-* Add method chaining
-* Add tests
-* Add Travis
-* npm-ify
   
 ##In a nutshell
 ```javascript
