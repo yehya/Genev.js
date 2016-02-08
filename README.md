@@ -14,6 +14,9 @@ Todo:
   
 ##In a nutshell
 ```javascript
+
+var genev = require('genev');
+
 // Create a chromosome
 var chromosome = {
   gene1: null,
@@ -22,8 +25,15 @@ var chromosome = {
 
 // Create a fitness function
 var ff = function (genes) {
-  var gene, score = 0;
-  for (gene in genes) { score += gene; } // score will be a sum of the genes
+  var score = 0;
+  
+  // In this example,
+  // the score will be the sum of the genes
+  // so the fittest chromosome shall be the one with the largest genes 
+  score = genes.gene1 + genes.gene2;
+  
+  // the score can be any number (there is no restriction on it's range)
+  // as long as the score is proportional to the fitness
   return score;
 }
 
