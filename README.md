@@ -33,7 +33,7 @@ var ff = function (genes) {
 }
 
 // Use Genev
-var genev = GF(chromosome); // set it up with our chromosmoe
-genev.initPopulation(); // initialize it
-genev.evolve(ff); // let it rip!
+var myga = genev(chromosome); // set it up with our chromosmoe
+myga.initPopulation(); // initialize it
+myga.evolve(ff); // let it rip!
 ```
