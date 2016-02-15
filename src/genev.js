@@ -9,11 +9,11 @@
   var prevGenev = root.genev;
 
   var genev = function(CHROMO_STRUCTURE, options) {
-    
-    // Makes me gag, but this'll be my solution for now 
+
+    // Makes me gag, but this'll be my solution for now
     var clone = function(obj) {
-        return JSON.parse(JSON.stringify(obj));
-    }
+      return JSON.parse(JSON.stringify(obj));
+    };
 
     // Create our own extend function
     var extend = function() {
@@ -53,8 +53,8 @@
     /* PRE-CONDITIONS */
 
     // Check for invalid parameter CHROMO_STRUCTURE
-    if ((typeof CHROMO_STRUCTURE === 'undefined') || (typeof CHROMO_STRUCTURE !== 'object')
-        || CHROMO_STRUCTURE === null) {
+    if ((typeof CHROMO_STRUCTURE === 'undefined') || (typeof CHROMO_STRUCTURE !== 'object') ||
+        CHROMO_STRUCTURE === null) {
       return null;
     }
 
@@ -66,7 +66,7 @@
 
     // Must have at least 1 gene
     if (Object.keys(CHROMO_STRUCTURE.genes).length < 1) {
-       return null;
+      return null;
     }
 
     ///////////////////////////////////////////////////////////
