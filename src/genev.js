@@ -21,26 +21,20 @@
       original = arguments[0] || {},
       i = 1,
       length = arguments.length;
-      // Handle case when original is a string or something
       if (typeof original !== 'object') {
         original = {};
       }
-      // if only one argument is passed, we return it back
       if (i === length) {
         return original;
       }
       for (; i < length; i++) {
-        // Only deal with non-null/undefined values
         if ((objct = arguments[i]) != null) {
-          // Extend the base object
           for (property in objct) {
             src = original[property];
             ncopy = objct[property];
-            // Prevent never-ending loop
             if (original === ncopy) {
               continue;
             }
-            // Recurse if we're merging plain objects or arrays
             if (ncopy !== undefined) {
               original[property] = ncopy;
             }
