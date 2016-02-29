@@ -42,3 +42,7 @@ var myga = genev(chromosome); // set it up with our chromosmoe
 myga.initPopulation(); // initialize it
 myga.evolve(ff); // let it rip!
 ```
+
+## Examples of projects using Genetic Algoriths
+
+[Artifical Intelligence playing Tetris] (https://codemyroad.wordpress.com/2013/04/14/tetris-ai-the-near-perfect-player/)
