@@ -43,6 +43,6 @@ myga.initPopulation(); // initialize it
 myga.evolve(ff); // let it rip!
 ```
 
-## Examples of projects using Genetic Algoriths
+## Examples of projects using Genetic Algorithms
 
 [Artifical Intelligence playing Tetris] (https://codemyroad.wordpress.com/2013/04/14/tetris-ai-the-near-perfect-player/)
